@@ -6,12 +6,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Serie
+ * Sousserie
  *
- * @ORM\Table(name="serie")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\SerieRepository")
+ * @ORM\Table(name="sousserie")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SousserieRepository")
  */
-class Serie
+class Sousserie
 {
     /**
      * @var int
@@ -25,14 +25,14 @@ class Serie
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=15)
+     * @ORM\Column(name="nom", type="string", length=25, unique=true)
      */
     private $nom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="designation", type="string", length=255)
+     * @ORM\Column(name="designation", type="text", nullable=true)
      */
     private $designation;
 
@@ -40,7 +40,7 @@ class Serie
      * @var string
      *
      * @Gedmo\Slug(fields={"nom"})
-     * @ORM\Column(name="slug", type="string", length=15)
+     * @ORM\Column(name="slug", type="string", length=25)
      */
     private $slug;
 
@@ -77,9 +77,10 @@ class Serie
     private $modifieLe;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Sousserie", mappedBy="serie")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Serie", inversedBy="sousseries")
+     * @ORM\JoinColumn(name="serie_id", referencedColumnName="id")
      */
-     private $sousseries;
+    private $serie;
 
 
     /**
@@ -97,11 +98,11 @@ class Serie
      *
      * @param string $nom
      *
-     * @return Serie
+     * @return Sousserie
      */
     public function setNom($nom)
     {
-        $this->nom = strtoupper($nom);
+        $this->nom = $nom;
 
         return $this;
     }
@@ -117,11 +118,35 @@ class Serie
     }
 
     /**
+     * Set designation
+     *
+     * @param string $designation
+     *
+     * @return Sousserie
+     */
+    public function setDesignation($designation)
+    {
+        $this->designation = $designation;
+
+        return $this;
+    }
+
+    /**
+     * Get designation
+     *
+     * @return string
+     */
+    public function getDesignation()
+    {
+        return $this->designation;
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
      *
-     * @return Serie
+     * @return Sousserie
      */
     public function setSlug($slug)
     {
@@ -145,7 +170,7 @@ class Serie
      *
      * @param string $publiePar
      *
-     * @return Serie
+     * @return Sousserie
      */
     public function setPubliePar($publiePar)
     {
@@ -169,7 +194,7 @@ class Serie
      *
      * @param string $modifiePar
      *
-     * @return Serie
+     * @return Sousserie
      */
     public function setModifiePar($modifiePar)
     {
@@ -193,7 +218,7 @@ class Serie
      *
      * @param \DateTime $publieLe
      *
-     * @return Serie
+     * @return Sousserie
      */
     public function setPublieLe($publieLe)
     {
@@ -217,7 +242,7 @@ class Serie
      *
      * @param \DateTime $modifieLe
      *
-     * @return Serie
+     * @return Sousserie
      */
     public function setModifieLe($modifieLe)
     {
@@ -237,71 +262,26 @@ class Serie
     }
 
     /**
-     * Set designation
+     * Set serie
      *
-     * @param string $designation
+     * @param \AppBundle\Entity\Serie $serie
      *
-     * @return Serie
+     * @return Sousserie
      */
-    public function setDesignation($designation)
+    public function setSerie(\AppBundle\Entity\Serie $serie = null)
     {
-        $this->designation = $designation;
+        $this->serie = $serie;
 
         return $this;
     }
 
     /**
-     * Get designation
+     * Get serie
      *
-     * @return string
+     * @return \AppBundle\Entity\Serie
      */
-    public function getDesignation()
+    public function getSerie()
     {
-        return $this->designation;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->sousseries = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add sousseries
-     *
-     * @param \AppBundle\Entity\Sousserie $sousseries
-     *
-     * @return Serie
-     */
-    public function addSousseries(\AppBundle\Entity\Sousserie $sousseries)
-    {
-        $this->sousseries[] = $sousseries;
-
-        return $this;
-    }
-
-    /**
-     * Remove sousseries
-     *
-     * @param \AppBundle\Entity\Sousserie $sousseries
-     */
-    public function removeSousseries(\AppBundle\Entity\Sousserie $sousseries)
-    {
-        $this->sousseries->removeElement($sousseries);
-    }
-
-    /**
-     * Get sousseries
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSousseries()
-    {
-        return $this->sousseries;
-    }
-
-    public function __toString() {
-        return $this->getNom();
+        return $this->serie;
     }
 }
