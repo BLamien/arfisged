@@ -153,7 +153,7 @@
             <nav id="sidenav" class="sidenav-collapse collapse">
               <ul class="sidenav">
                 <li class="sidenav-search hidden-md hidden-lg">
-                  <form class="sidenav-form" action="http://demo.naksoid.com/">
+                  <form class="sidenav-form" action="{{ path('homepage')}}">
                     <div class="form-group form-group-sm">
                       <div class="input-with-icon">
                         <input class="form-control" type="text" placeholder="Recherche…">
@@ -179,10 +179,10 @@
                   <ul class="sidenav-subnav collapse">
                     <li class="sidenav-subheading">Support</li>
                     <li>
-                      <a href="#">Rayonnage</a>
+                      <a href="{{ path('rayonnage_index')}}">Rayonnage</a>
                     </li>
                     <li>
-                      <a href="#">Epi</a>
+                      <a href="{{ path('epi_index')}}">Epi</a>
                     </li>
                     <li>
                       <a href="#">Unité de conservation</a>
