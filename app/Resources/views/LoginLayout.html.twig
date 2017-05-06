@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ARFISGED - Connexion</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="description" content="Plateformes de gestions des archivages physiques et numériques">
+    <meta name="author" content="Eden'Art, Delrodie AMOIKON">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,700">
+    <link rel="stylesheet" href="{{ asset('ressources/css/vendor.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('ressources/css/elephant.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('ressources/css/login-3.min.css')}}">
+    <link rel="icon" href="{{ asset('ressources/img/favicon.png')}}">
+  </head>
+  <body>
+    <div class="login">
+      <div class="login-body">
+        <a class="login-brand" href="http://arfis.com/">
+          <img class="img-responsive" src="{{ asset('ressources/img/logo-bleu.png')}}" alt="ARFISGED">
+        </a>
+        <div class="login-form">
+
+          <div>
+              {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                  {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                  <a href="{{ path('fos_user_security_logout') }}">
+                      {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                  </a>
+              {% else %}
+                  <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+              {% endif %}
+          </div>
+
+          {% if app.request.hasPreviousSession %}
+              {% for type, messages in app.session.flashbag.all() %}
+                  {% for message in messages %}
+                      <div class="flash-{{ type }}">
+                          {{ message }}
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+          {% endif %}
+
+          <div>
+              {% block fos_user_content %}
+              {% endblock fos_user_content %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <script src="{{ asset('ressources/js/vendor.min.js')}}"></script>
+    <script src="{{ asset('ressources/js/elephant.min.js')}}"></script>
+  </body>
+</html>
