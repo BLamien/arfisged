@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sousserie</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sousserie.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ sousserie.nom }}</td>
+            </tr>
+            <tr>
+                <th>Designation</th>
+                <td>{{ sousserie.designation }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ sousserie.slug }}</td>
+            </tr>
+            <tr>
+                <th>Publiepar</th>
+                <td>{{ sousserie.publiePar }}</td>
+            </tr>
+            <tr>
+                <th>Modifiepar</th>
+                <td>{{ sousserie.modifiePar }}</td>
+            </tr>
+            <tr>
+                <th>Publiele</th>
+                <td>{{ sousserie.publieLe }}</td>
+            </tr>
+            <tr>
+                <th>Modifiele</th>
+                <td>{{ sousserie.modifieLe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sousserie_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('sousserie_edit', { 'id': sousserie.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
