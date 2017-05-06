@@ -6,12 +6,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Rayonnage
+ * Epi
  *
- * @ORM\Table(name="rayonnage")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\RayonnageRepository")
+ * @ORM\Table(name="epi")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EpiRepository")
  */
-class Rayonnage
+class Epi
 {
     /**
      * @var int
@@ -25,15 +25,29 @@ class Rayonnage
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=15)
+     * @ORM\Column(name="nom", type="string", length=125)
      */
     private $nom;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="face", type="integer", nullable=true)
+     */
+    private $face;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="rayon", type="integer", nullable=true)
+     */
+    private $rayon;
+
+    /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"nom"})
-     * @ORM\Column(name="slug", type="string", length=15)
+     * @Gedmo\Slug(fields={"nom","face","rayon"})
+     * @ORM\Column(name="slug", type="string", length=125)
      */
     private $slug;
 
@@ -70,9 +84,10 @@ class Rayonnage
     private $modifieLe;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Epi", mappedBy="rayonnage")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Rayonnage", inversedBy="epis")
+     * @ORM\JoinColumn(name="rayonnage_id", referencedColumnName="id")
      */
-     private $epis;
+    private $rayonnage;
 
 
     /**
@@ -90,7 +105,7 @@ class Rayonnage
      *
      * @param string $nom
      *
-     * @return Rayonnage
+     * @return Epi
      */
     public function setNom($nom)
     {
@@ -110,11 +125,59 @@ class Rayonnage
     }
 
     /**
+     * Set face
+     *
+     * @param integer $face
+     *
+     * @return Epi
+     */
+    public function setFace($face)
+    {
+        $this->face = $face;
+
+        return $this;
+    }
+
+    /**
+     * Get face
+     *
+     * @return int
+     */
+    public function getFace()
+    {
+        return $this->face;
+    }
+
+    /**
+     * Set rayon
+     *
+     * @param integer $rayon
+     *
+     * @return Epi
+     */
+    public function setRayon($rayon)
+    {
+        $this->rayon = $rayon;
+
+        return $this;
+    }
+
+    /**
+     * Get rayon
+     *
+     * @return int
+     */
+    public function getRayon()
+    {
+        return $this->rayon;
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
      *
-     * @return Rayonnage
+     * @return Epi
      */
     public function setSlug($slug)
     {
@@ -138,7 +201,7 @@ class Rayonnage
      *
      * @param string $publiePar
      *
-     * @return Rayonnage
+     * @return Epi
      */
     public function setPubliePar($publiePar)
     {
@@ -162,7 +225,7 @@ class Rayonnage
      *
      * @param string $modifiePar
      *
-     * @return Rayonnage
+     * @return Epi
      */
     public function setModifiePar($modifiePar)
     {
@@ -186,7 +249,7 @@ class Rayonnage
      *
      * @param \DateTime $publieLe
      *
-     * @return Rayonnage
+     * @return Epi
      */
     public function setPublieLe($publieLe)
     {
@@ -210,7 +273,7 @@ class Rayonnage
      *
      * @param \DateTime $modifieLe
      *
-     * @return Rayonnage
+     * @return Epi
      */
     public function setModifieLe($modifieLe)
     {
@@ -228,49 +291,28 @@ class Rayonnage
     {
         return $this->modifieLe;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->epis = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
-     * Add epi
+     * Set rayonnage
      *
-     * @param \AppBundle\Entity\Epi $epi
+     * @param \AppBundle\Entity\Rayonnage $rayonnage
      *
-     * @return Rayonnage
+     * @return Epi
      */
-    public function addEpi(\AppBundle\Entity\Epi $epi)
+    public function setRayonnage(\AppBundle\Entity\Rayonnage $rayonnage = null)
     {
-        $this->epis[] = $epi;
+        $this->rayonnage = $rayonnage;
 
         return $this;
     }
 
     /**
-     * Remove epi
+     * Get rayonnage
      *
-     * @param \AppBundle\Entity\Epi $epi
+     * @return \AppBundle\Entity\Rayonnage
      */
-    public function removeEpi(\AppBundle\Entity\Epi $epi)
+    public function getRayonnage()
     {
-        $this->epis->removeElement($epi);
-    }
-
-    /**
-     * Get epis
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEpis()
-    {
-        return $this->epis;
-    }
-
-    public function __toString() {
-        return $this->getNom();
+        return $this->rayonnage;
     }
 }

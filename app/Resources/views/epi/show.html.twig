@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Epi</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ epi.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ epi.nom }}</td>
+            </tr>
+            <tr>
+                <th>Face</th>
+                <td>{{ epi.face }}</td>
+            </tr>
+            <tr>
+                <th>Rayon</th>
+                <td>{{ epi.rayon }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ epi.slug }}</td>
+            </tr>
+            <tr>
+                <th>Publiepar</th>
+                <td>{{ epi.publiePar }}</td>
+            </tr>
+            <tr>
+                <th>Modifiepar</th>
+                <td>{{ epi.modifiePar }}</td>
+            </tr>
+            <tr>
+                <th>Publiele</th>
+                <td>{{ epi.publieLe }}</td>
+            </tr>
+            <tr>
+                <th>Modifiele</th>
+                <td>{{ epi.modifieLe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('epi_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('epi_edit', { 'id': epi.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
