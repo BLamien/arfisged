@@ -32,7 +32,7 @@ class Conservation
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"nom"})
+     * @Gedmo\Slug(fields={"libelle"})
      * @ORM\Column(name="slug", type="string", length=15)
      */
     private $slug;
@@ -89,7 +89,7 @@ class Conservation
      */
     public function setLibelle($libelle)
     {
-        $this->libelle = $libelle;
+        $this->libelle = strtoupper($libelle);
 
         return $this;
     }
