@@ -4,19 +4,30 @@
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
-<form action="{{ path("fos_user_security_check") }}" method="post">
+<form action="{{ path("fos_user_security_check") }}" method="post" data-toggle="md-validator">
     {% if csrf_token %}
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
     {% endif %}
 
-    <label for="username">{{ 'security.login.username'|trans }}</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+    <div class="md-form-group md-label-floating">
+      <input class="md-form-control" type="text" id="username" name="_username" value="{{ last_username }}" spellcheck="false" autocomplete="off" data-msg-required="Veuillez entrer votre nom utilisateur ou adresse mail" required>
+      <label class="md-control-label">{{ 'security.login.username'|trans }}</label>
+    </div>
 
-    <label for="password">{{ 'security.login.password'|trans }}</label>
-    <input type="password" id="password" name="_password" required="required" />
+    <div class="md-form-group md-label-floating">
+      <input class="md-form-control" type="password" id="password" name="_password" minlength="6" data-msg-minlength="Mot de passe doit comporter au moins 6 caratères." data-msg-required="Veuillez entrer votre mot de passe." required>
+      <label class="md-control-label">{{ 'security.login.password'|trans }}</label>
+    </div>
 
-    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+    <div class="md-form-group md-custom-controls">
+      <label class="custom-control custom-control-primary custom-checkbox">
+        <input class="custom-control-input" type="checkbox" id="remember_me" name="_remember_me" value="on">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-label">{{ 'security.login.remember_me'|trans }}</span>
+      </label>
+      <span aria-hidden="true"> · </span>
+    </div>
 
-    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+    <button class="btn btn-warning btn-block" type="submit"  id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}">Se connecter</button>
+    
 </form>
