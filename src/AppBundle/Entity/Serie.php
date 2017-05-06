@@ -32,6 +32,13 @@ class Serie
     /**
      * @var string
      *
+     * @ORM\Column(name="designation", type="string", length=255)
+     */
+    private $designation;
+
+    /**
+     * @var string
+     *
      * @Gedmo\Slug(fields={"nom"})
      * @ORM\Column(name="slug", type="string", length=15)
      */
@@ -89,7 +96,7 @@ class Serie
      */
     public function setNom($nom)
     {
-        $this->nom = $nom;
+        $this->nom = strtoupper($nom);
 
         return $this;
     }
@@ -222,5 +229,29 @@ class Serie
     public function getModifieLe()
     {
         return $this->modifieLe;
+    }
+
+    /**
+     * Set designation
+     *
+     * @param string $designation
+     *
+     * @return Serie
+     */
+    public function setDesignation($designation)
+    {
+        $this->designation = $designation;
+
+        return $this;
+    }
+
+    /**
+     * Get designation
+     *
+     * @return string
+     */
+    public function getDesignation()
+    {
+        return $this->designation;
     }
 }
