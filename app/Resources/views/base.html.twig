@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ARFISGED - Tableau de bord</title>
+    <title>{% block title %}ARFISGED - Tableau de bord{% endblock %}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <meta name="description" content="Plateformes de gestions des archivages physiques et numériques">
     <meta name="author" content="Eden'Art, Delrodie AMOIKON">
@@ -317,9 +317,12 @@
         </div>
       </div>
     </div>
+
+    {% block javascripts %}
     <script src="{{ asset('ressources/js/vendor.min.js')}}"></script>
     <script src="{{ asset('ressources/js/elephant.min.js')}}"></script>
     <script src="{{ asset('ressources/js/application.min.js')}}"></script>
+    {% endblock %}
   </body>
 
 </html>
