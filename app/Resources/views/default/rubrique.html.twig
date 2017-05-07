@@ -6,17 +6,9 @@
                   </a>
                   <ul class="sidenav-subnav collapse">
                     <li class="sidenav-subheading">{{ rubrique.nom|title }}</li>
+                    {{ render(url('ged_sous_rubriques', {'id': rubrique.id }))}}
                     <li>
-                      <a href="#">Contrats</a>
-                    </li>
-                    <li>
-                      <a href="#">Courriers internes</a>
-                    </li>
-                    <li>
-                      <a href="#">Couries externes</a>
-                    </li>
-                    <li>
-                      <a href="#">Rapports</a>
+                      <a href="#"></a>
                     </li>
                   </ul>
                 </li>
