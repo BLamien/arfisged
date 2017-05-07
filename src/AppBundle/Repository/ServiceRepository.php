@@ -10,4 +10,28 @@ namespace AppBundle\Repository;
  */
 class ServiceRepository extends \Doctrine\ORM\EntityRepository
 {
+  /**
+   * Liste des services par ordre alphabetique par nom
+   *
+   * @author: Delrodie AMOIKON
+   * @date: 07/05/2017 14:35
+   * @version: v1.0
+   */
+   public function findOrderByNom()
+   {
+       $em = $this->getEntityManager();
+       $qb = $em->createQuery('
+              SELECT s
+              FROM AppBundle:Service s
+              ORDER BY s.nom ASC
+       ');
+       try {
+           $result = $qb->getResult();
+
+           return $result;
+
+       } catch (NoResultException $e) {
+           return $e;
+       }
+   }
 }

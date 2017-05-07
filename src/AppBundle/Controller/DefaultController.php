@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
@@ -55,4 +56,21 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
     }
+
+    /**
+     * Liste des services
+     *
+     * @Route("/rubriques", name="ged_rubriques")
+     */
+     public function rubriquesAction()
+     {
+       $em = $this->getDoctrine()->getManager();
+
+       $rubriques = $em->getRepository('AppBundle:Service')->findOrderByNom();
+       //dump($rubriques); die();
+
+       return $this->render('default/rubrique.html.twig', [
+           'rubriques'  => $rubriques,
+       ]);
+     }
 }

@@ -1,0 +1,23 @@
+                {% for rubrique in rubriques %}
+                <li class="sidenav-item has-subnav">
+                  <a href="#" aria-haspopup="true">
+                    <span class="sidenav-icon icon icon-folder-o"></span>
+                    <span class="sidenav-label">{{ rubrique.nom|title }}</span>
+                  </a>
+                  <ul class="sidenav-subnav collapse">
+                    <li class="sidenav-subheading">{{ rubrique.nom|title }}</li>
+                    <li>
+                      <a href="#">Contrats</a>
+                    </li>
+                    <li>
+                      <a href="#">Courriers internes</a>
+                    </li>
+                    <li>
+                      <a href="#">Couries externes</a>
+                    </li>
+                    <li>
+                      <a href="#">Rapports</a>
+                    </li>
+                  </ul>
+                </li>
+                {% endfor %}
