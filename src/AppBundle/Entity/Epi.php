@@ -89,6 +89,11 @@ class Epi
      */
     private $rayonnage;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Definitive", mappedBy="epi")
+     */
+     private $definitives;
+
 
     /**
      * Get id
@@ -314,5 +319,50 @@ class Epi
     public function getRayonnage()
     {
         return $this->rayonnage;
+    }
+
+    public function __toString() {
+        return $this->getNom();
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->definitives = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add definitive
+     *
+     * @param \AppBundle\Entity\Definitive $definitive
+     *
+     * @return Epi
+     */
+    public function addDefinitive(\AppBundle\Entity\Definitive $definitive)
+    {
+        $this->definitives[] = $definitive;
+
+        return $this;
+    }
+
+    /**
+     * Remove definitive
+     *
+     * @param \AppBundle\Entity\Definitive $definitive
+     */
+    public function removeDefinitive(\AppBundle\Entity\Definitive $definitive)
+    {
+        $this->definitives->removeElement($definitive);
+    }
+
+    /**
+     * Get definitives
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDefinitives()
+    {
+        return $this->definitives;
     }
 }
