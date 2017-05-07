@@ -1,0 +1,196 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Côte définitive {% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('ressources/css/demo.min.css')}}">
+{% endblock %}
+
+{% block body %}
+
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Gestion des côtes définitives</span>
+        </h1>
+      </div><br>
+      <!-- Enregistrement -->
+      <div class="row p-y-lg">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+          {{ form_start(edit_form, { 'attr': {'data-toggle': 'md-validator' }}) }}
+            <div class="row">
+              <div class="col-sm-4 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.epi) }}
+                  {{ form_errors(edit_form.epi) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Veuillez selectionner l'epi <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-4 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.provisoire) }}
+                  {{ form_errors(edit_form.provisoire) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Veuillez selectionner la côte provisoire <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-4 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.sortfinal) }}
+                  {{ form_errors(edit_form.sortfinal) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Veuillez choisir le sort final  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.libelle) }}
+                  {{ form_errors(edit_form.libelle) }}
+                  <label class="md-control-label">Côte définitive</label>
+                  <small class="md-help-block">Le nom de la côte définitive <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-8">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.designation) }}
+                  {{ form_errors(edit_form.designation) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">La désignation de la côte définitive <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-3 col-md-3">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.rayon) }}
+                  {{ form_errors(edit_form.rayon) }}
+                  <label class="md-control-label">Rayon</label>
+                  <small class="md-help-block">Le rayon sur lequel, elle est rangée</small>
+                </div>
+              </div>
+              <div class="col-sm-3 col-md-3">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.position) }}
+                  {{ form_errors(edit_form.position) }}
+                  <label class="md-control-label">Position</label>
+                  <small class="md-help-block">La position occupée</small>
+                </div>
+              </div>
+              <div class="col-sm-3 col-md-3">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.extreme) }}
+                  {{ form_errors(edit_form.extreme) }}
+                  <label class="md-control-label">Extrème</label>
+                  <small class="md-help-block">La date extrème <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-3 col-md-3">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.vie) }}
+                  {{ form_errors(edit_form.vie) }}
+                  <label class="md-control-label">Vie</label>
+                  <small class="md-help-block">La duré de vie</small>
+                </div>
+              </div>
+            </div><br><br>
+            <div class="row">
+              <div class="col-sm-4 col-md-2 col-md-offset-6">
+                {{ form_rest(edit_form)}}
+                <button type="submit" class="btn btn-primary btn-block">Modifier</button>
+              </div>
+              <div class="col-sm-4 col-md-2">
+                <a href="{{ path('definitive_index')}}" class="btn btn-default btn-block">Annuler</a>
+              </div>
+            {{ form_end(edit_form)}}
+            <div class="col-sm-4 col-md-2">
+              {{ form_start(delete_form) }}
+                  <input type="submit" value="Supprimer" class="btn btn-danger btn-block" onclick="return window.confirm('Confirmez-vous la suppression de cette côte définitive?');">
+              {{ form_end(delete_form) }}
+            </div>
+            </div>
+        </div>
+      </div>
+      <!-- \Enregistrement -->
+      <br>
+      <!-- Message -->
+        {% for flash_message in app.session.flashBag.get('notice') %}
+          {% if flash_message %}
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+              <div class="alert alert-success alert-dismissible fade in">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <a href="#" class="alert-link">NOTIFICATION :</a> {{ flash_message }}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+        <!-- \Message -->
+        <br>
+      <!-- Tableau -->
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-actions">
+                <button type="button" class="card-action card-toggler"></button>
+                <button type="button" class="card-action card-reload"></button>
+                <button type="button" class="card-action card-remove"></button>
+              </div>
+              <h5 class="m-b-0 text-center">LISTE DES COTES DEFINITIVES</h5>
+            </div>
+            <div class="card-body">
+              <div class="card-body">
+                <table id="demo-datatables-buttons-2" class="table table-bordered table-striped table-nowrap dataTable" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">EPIS</th>
+                      <th class="text-center">PROVISOIRES</th>
+                      <th class="text-center">DEFINITIVES</th>
+                      <th class="text-center">DESCRIPTIONS</th>
+                      <th class="text-center">POSITIONS</th>
+                      <th class="text-center">EXTREMES</th>
+                      <th class="text-center">DUREES</th>
+                      <th class="text-center"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for definitive in definitives %}
+                    <tr>
+                      <td class="text-right">{{ loop.index }}</td>
+                      <td class="text-center">{{ definitive.epi }}</td>
+                      <td class="text-center">{{ definitive.provisoire }}</td>
+                      <td class="text-center">{{ definitive.libelle }}</td>
+                      <td class="text-center">{{ definitive.designation }}</td>
+                      <td class="text-center">
+                        Etagère: <strong>{{ definitive.rayon }}</strong><br>
+                        Position: <strong>{{ definitive.position }}</strong>
+                      </td>
+                      <td class="text-center">{{ definitive.extreme }}</td>
+                      <td class="text-center"><strong>{{ definitive.vie }}</strong> ans</td>
+                      <td class="text-center">
+                        <a href="{{ path('definitive_edit', {'slug': definitive.slug})}}" title="Modifier la côte definitive {{ definitive.libelle|title }}">
+                          <span class="icon icon-edit"></span>
+                        </a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- \Tableau -->
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('ressources/js/demo.min.js')}}"></script>
+{% endblock %}
