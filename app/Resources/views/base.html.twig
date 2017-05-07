@@ -226,28 +226,8 @@
                   </a>
                 </li>
                 <li class="sidenav-heading">GED</li>
-                <li class="sidenav-item has-subnav">
-                  <a href="#" aria-haspopup="true">
-                    <span class="sidenav-icon icon icon-folder-o"></span>
-                    <span class="sidenav-label">Administration</span>
-                  </a>
-                  <ul class="sidenav-subnav collapse">
-                    <li class="sidenav-subheading">Administration</li>
-                    <li>
-                      <a href="#">Contrats</a>
-                    </li>
-                    <li>
-                      <a href="#">Courriers internes</a>
-                    </li>
-                    <li>
-                      <a href="#">Couries externes</a>
-                    </li>
-                    <li>
-                      <a href="#">Rapports</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="sidenav-item has-subnav">
+                {{ render(url('ged_rubriques'))}}
+                <!--<li class="sidenav-item has-subnav">
                   <a href="#" aria-haspopup="true">
                     <span class="sidenav-icon icon icon-folder-o"></span>
                     <span class="sidenav-label">Comptabilité</span>
@@ -264,7 +244,7 @@
                       <a href="#">Budgets</a>
                     </li>
                   </ul>
-                </li>
+                </li>-->
                 <li class="sidenav-heading">Parametrage</li>
                 <li class="sidenav-item has-subnav">
                   <a href="#" aria-haspopup="true">
@@ -274,7 +254,7 @@
                   <ul class="sidenav-subnav collapse">
                     <li class="sidenav-subheading">Paramètres</li>
                     <li>
-                      <a href="#">Services</a>
+                      <a href="{{ path('service_index')}}">Services</a>
                     </li>
                     <li>
                       <a href="#">Rubriques</a>
