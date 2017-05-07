@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Epi {% endblock %}
+{% block title %} Sort final {% endblock %}
 
 {% block stylesheets %}
   {{ parent() }}
@@ -13,63 +13,38 @@
     <div class="layout-content-body">
       <div class="title-bar">
         <h1 class="title-bar-title">
-          <span class="d-ib">Gestion des Epis</span>
+          <span class="d-ib">Gestion des Sorts finaux</span>
         </h1>
       </div><br>
       <!-- Enregistrement -->
       <div class="row p-y-lg">
-        <div class="col-sm-12">
+        <div class="col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
           {{ form_start(edit_form, { 'attr': {'data-toggle': 'md-validator' }}) }}
             <div class="row">
-              <div class="col-sm-6 col-md-3">
+              <div class="col-sm-6 col-md-6">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.rayonnage) }}
-                  {{ form_errors(edit_form.rayonnage) }}
-                  <label class="md-control-label"></label>
-                  <small class="md-help-block">Intutilé du rayonnage <span style="color: red">*</span></small>
+                  {{ form_widget(edit_form.libelle) }}
+                  {{ form_errors(edit_form.libelle) }}
+                  <label class="md-control-label">Sort final</label>
+                  <small class="md-help-block">Intutilé du sort final</small>
                 </div>
               </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.nom) }}
-                  {{ form_errors(edit_form.nom) }}
-                  <label class="md-control-label">Epi <span style="color: red;">*</span></label>
-                  <small class="md-help-block">Intutilé d'epi</small>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.face) }}
-                  {{ form_errors(edit_form.face) }}
-                  <label class="md-control-label">Nombre de faces</label>
-                  <small class="md-help-block">Nombre de face</small>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.rayon) }}
-                  {{ form_errors(edit_form.rayon) }}
-                  <label class="md-control-label">Nombre de rayons</label>
-                  <small class="md-help-block">Nombre de rayons</small>
-                </div>
-              </div>
-            </div><br><br>
+            </div><br>
             <div class="row">
               <div class="col-sm-4 col-md-2 col-md-offset-6">
                 {{ form_rest(edit_form)}}
                 <button type="submit" class="btn btn-primary btn-block">Modifier</button>
               </div>
               <div class="col-sm-4 col-md-2">
-                <a href="{{ path('epi_index')}}" class="btn btn-default btn-block">Annuler</a>
+                <a href="{{ path('sortfinal_index')}}" class="btn btn-default btn-block">Annuler</a>
               </div>
-              {{ form_end(edit_form)}}
-              <div class="col-sm-4 col-md-2">
-                {{ form_start(delete_form) }}
-                    <input type="submit" value="Supprimer" class="btn btn-danger btn-block" onclick="return window.confirm('Confirmez-vous la suppression de cet epi?');">
-                {{ form_end(delete_form) }}
-              </div>
+            {{ form_end(edit_form)}}
+            <div class="col-sm-4 col-md-2">
+              {{ form_start(delete_form) }}
+                  <input type="submit" value="Supprimer" class="btn btn-danger btn-block" onclick="return window.confirm('Confirmez-vous la suppression de ce sort final?');">
+              {{ form_end(delete_form) }}
             </div>
-
+            </div>
         </div>
       </div>
       <!-- \Enregistrement -->
@@ -99,7 +74,7 @@
                 <button type="button" class="card-action card-reload"></button>
                 <button type="button" class="card-action card-remove"></button>
               </div>
-              <h5 class="m-b-0 text-center">LISTE DES EPIS</h5>
+              <h5 class="m-b-0 text-center">LISTE DES SORTS FINAUX</h5>
             </div>
             <div class="card-body">
               <div class="card-body">
@@ -107,23 +82,17 @@
                   <thead>
                     <tr>
                       <th class="text-center">ID</th>
-                      <th class="text-center">RAYONNAGES</th>
-                      <th class="text-center">EPIS</th>
-                      <th class="text-center">NOMBRE DE FACES</th>
-                      <th class="text-center">NOMBRE DE RAYONS</th>
+                      <th class="text-center">Sort final</th>
                       <th class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for epi in epis %}
+                    {% for sortfinal in sortfinals %}
                     <tr>
                       <td class="text-right">{{ loop.index }}</td>
-                      <td class="text-center">{{ epi.rayonnage }}</td>
-                      <td class="text-center">{{ epi.nom }}</td>
-                      <td class="text-center">{{ epi.face }}</td>
-                      <td class="text-center">{{ epi.rayon }}</td>
+                      <td>{{ sortfinal.libelle }}</td>
                       <td class="text-center">
-                        <a href="{{ path('epi_edit', {'id': epi.id})}}" title="Modifier le epi {{ epi.nom|title }}">
+                        <a href="{{ path('sortfinal_edit', {'slug': sortfinal.slug})}}" title="Modifier le sort final {{ sortfinal.libelle|title }}">
                           <span class="icon icon-edit"></span>
                         </a>
                       </td>

@@ -6,12 +6,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Epi
+ * Provisoire
  *
- * @ORM\Table(name="epi")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\EpiRepository")
+ * @ORM\Table(name="provisoire")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ProvisoireRepository")
  */
-class Epi
+class Provisoire
 {
     /**
      * @var int
@@ -25,29 +25,22 @@ class Epi
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=125)
+     * @ORM\Column(name="nom", type="string", length=25, unique=true)
      */
     private $nom;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="face", type="integer", nullable=true)
+     * @ORM\Column(name="designation", type="text", nullable=true)
      */
-    private $face;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="rayon", type="integer", nullable=true)
-     */
-    private $rayon;
+    private $designation;
 
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"nom","face","rayon"})
-     * @ORM\Column(name="slug", type="string", length=125)
+     * @Gedmo\Slug(fields={"nom"})
+     * @ORM\Column(name="slug", type="string", length=25)
      */
     private $slug;
 
@@ -84,13 +77,19 @@ class Epi
     private $modifieLe;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Rayonnage", inversedBy="epis")
-     * @ORM\JoinColumn(name="rayonnage_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Conservation", inversedBy="provisoires")
+     * @ORM\JoinColumn(name="conservation_id", referencedColumnName="id")
      */
-    private $rayonnage;
+    private $conservation;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Definitive", mappedBy="epi")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Sousserie", inversedBy="provisoires")
+     * @ORM\JoinColumn(name="sousserie_id", referencedColumnName="id")
+     */
+    private $sousserie;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Definitive", mappedBy="provisoire")
      */
      private $definitives;
 
@@ -110,7 +109,7 @@ class Epi
      *
      * @param string $nom
      *
-     * @return Epi
+     * @return Provisoire
      */
     public function setNom($nom)
     {
@@ -130,51 +129,27 @@ class Epi
     }
 
     /**
-     * Set face
+     * Set designation
      *
-     * @param integer $face
+     * @param string $designation
      *
-     * @return Epi
+     * @return Provisoire
      */
-    public function setFace($face)
+    public function setDesignation($designation)
     {
-        $this->face = $face;
+        $this->designation = $designation;
 
         return $this;
     }
 
     /**
-     * Get face
+     * Get designation
      *
-     * @return int
+     * @return string
      */
-    public function getFace()
+    public function getDesignation()
     {
-        return $this->face;
-    }
-
-    /**
-     * Set rayon
-     *
-     * @param integer $rayon
-     *
-     * @return Epi
-     */
-    public function setRayon($rayon)
-    {
-        $this->rayon = $rayon;
-
-        return $this;
-    }
-
-    /**
-     * Get rayon
-     *
-     * @return int
-     */
-    public function getRayon()
-    {
-        return $this->rayon;
+        return $this->designation;
     }
 
     /**
@@ -182,7 +157,7 @@ class Epi
      *
      * @param string $slug
      *
-     * @return Epi
+     * @return Provisoire
      */
     public function setSlug($slug)
     {
@@ -206,7 +181,7 @@ class Epi
      *
      * @param string $publiePar
      *
-     * @return Epi
+     * @return Provisoire
      */
     public function setPubliePar($publiePar)
     {
@@ -230,7 +205,7 @@ class Epi
      *
      * @param string $modifiePar
      *
-     * @return Epi
+     * @return Provisoire
      */
     public function setModifiePar($modifiePar)
     {
@@ -254,7 +229,7 @@ class Epi
      *
      * @param \DateTime $publieLe
      *
-     * @return Epi
+     * @return Provisoire
      */
     public function setPublieLe($publieLe)
     {
@@ -278,7 +253,7 @@ class Epi
      *
      * @param \DateTime $modifieLe
      *
-     * @return Epi
+     * @return Provisoire
      */
     public function setModifieLe($modifieLe)
     {
@@ -298,27 +273,51 @@ class Epi
     }
 
     /**
-     * Set rayonnage
+     * Set conservation
      *
-     * @param \AppBundle\Entity\Rayonnage $rayonnage
+     * @param \AppBundle\Entity\Conservation $conservation
      *
-     * @return Epi
+     * @return Provisoire
      */
-    public function setRayonnage(\AppBundle\Entity\Rayonnage $rayonnage = null)
+    public function setConservation(\AppBundle\Entity\Conservation $conservation = null)
     {
-        $this->rayonnage = $rayonnage;
+        $this->conservation = $conservation;
 
         return $this;
     }
 
     /**
-     * Get rayonnage
+     * Get conservation
      *
-     * @return \AppBundle\Entity\Rayonnage
+     * @return \AppBundle\Entity\Conservation
      */
-    public function getRayonnage()
+    public function getConservation()
     {
-        return $this->rayonnage;
+        return $this->conservation;
+    }
+
+    /**
+     * Set sousserie
+     *
+     * @param \AppBundle\Entity\Sousserie $sousserie
+     *
+     * @return Provisoire
+     */
+    public function setSousserie(\AppBundle\Entity\Sousserie $sousserie = null)
+    {
+        $this->sousserie = $sousserie;
+
+        return $this;
+    }
+
+    /**
+     * Get sousserie
+     *
+     * @return \AppBundle\Entity\Sousserie
+     */
+    public function getSousserie()
+    {
+        return $this->sousserie;
     }
 
     public function __toString() {
@@ -337,7 +336,7 @@ class Epi
      *
      * @param \AppBundle\Entity\Definitive $definitive
      *
-     * @return Epi
+     * @return Provisoire
      */
     public function addDefinitive(\AppBundle\Entity\Definitive $definitive)
     {

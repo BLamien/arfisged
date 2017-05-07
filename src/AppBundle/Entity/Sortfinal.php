@@ -6,12 +6,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Epi
+ * Sortfinal
  *
- * @ORM\Table(name="epi")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\EpiRepository")
+ * @ORM\Table(name="sortfinal")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SortfinalRepository")
  */
-class Epi
+class Sortfinal
 {
     /**
      * @var int
@@ -25,29 +25,15 @@ class Epi
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=125)
+     * @ORM\Column(name="libelle", type="string", length=15)
      */
-    private $nom;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="face", type="integer", nullable=true)
-     */
-    private $face;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="rayon", type="integer", nullable=true)
-     */
-    private $rayon;
+    private $libelle;
 
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"nom","face","rayon"})
-     * @ORM\Column(name="slug", type="string", length=125)
+     * @Gedmo\Slug(fields={"libelle"})
+     * @ORM\Column(name="slug", type="string", length=15)
      */
     private $slug;
 
@@ -84,13 +70,7 @@ class Epi
     private $modifieLe;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Rayonnage", inversedBy="epis")
-     * @ORM\JoinColumn(name="rayonnage_id", referencedColumnName="id")
-     */
-    private $rayonnage;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Definitive", mappedBy="epi")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Definitive", mappedBy="sortfinal")
      */
      private $definitives;
 
@@ -106,75 +86,27 @@ class Epi
     }
 
     /**
-     * Set nom
+     * Set libelle
      *
-     * @param string $nom
+     * @param string $libelle
      *
-     * @return Epi
+     * @return Sortfinal
      */
-    public function setNom($nom)
+    public function setLibelle($libelle)
     {
-        $this->nom = strtoupper($nom);
+        $this->libelle = strtoupper($libelle);
 
         return $this;
     }
 
     /**
-     * Get nom
+     * Get libelle
      *
      * @return string
      */
-    public function getNom()
+    public function getLibelle()
     {
-        return $this->nom;
-    }
-
-    /**
-     * Set face
-     *
-     * @param integer $face
-     *
-     * @return Epi
-     */
-    public function setFace($face)
-    {
-        $this->face = $face;
-
-        return $this;
-    }
-
-    /**
-     * Get face
-     *
-     * @return int
-     */
-    public function getFace()
-    {
-        return $this->face;
-    }
-
-    /**
-     * Set rayon
-     *
-     * @param integer $rayon
-     *
-     * @return Epi
-     */
-    public function setRayon($rayon)
-    {
-        $this->rayon = $rayon;
-
-        return $this;
-    }
-
-    /**
-     * Get rayon
-     *
-     * @return int
-     */
-    public function getRayon()
-    {
-        return $this->rayon;
+        return $this->libelle;
     }
 
     /**
@@ -182,7 +114,7 @@ class Epi
      *
      * @param string $slug
      *
-     * @return Epi
+     * @return Sortfinal
      */
     public function setSlug($slug)
     {
@@ -206,7 +138,7 @@ class Epi
      *
      * @param string $publiePar
      *
-     * @return Epi
+     * @return Sortfinal
      */
     public function setPubliePar($publiePar)
     {
@@ -230,7 +162,7 @@ class Epi
      *
      * @param string $modifiePar
      *
-     * @return Epi
+     * @return Sortfinal
      */
     public function setModifiePar($modifiePar)
     {
@@ -254,7 +186,7 @@ class Epi
      *
      * @param \DateTime $publieLe
      *
-     * @return Epi
+     * @return Sortfinal
      */
     public function setPublieLe($publieLe)
     {
@@ -278,7 +210,7 @@ class Epi
      *
      * @param \DateTime $modifieLe
      *
-     * @return Epi
+     * @return Sortfinal
      */
     public function setModifieLe($modifieLe)
     {
@@ -297,32 +229,8 @@ class Epi
         return $this->modifieLe;
     }
 
-    /**
-     * Set rayonnage
-     *
-     * @param \AppBundle\Entity\Rayonnage $rayonnage
-     *
-     * @return Epi
-     */
-    public function setRayonnage(\AppBundle\Entity\Rayonnage $rayonnage = null)
-    {
-        $this->rayonnage = $rayonnage;
-
-        return $this;
-    }
-
-    /**
-     * Get rayonnage
-     *
-     * @return \AppBundle\Entity\Rayonnage
-     */
-    public function getRayonnage()
-    {
-        return $this->rayonnage;
-    }
-
     public function __toString() {
-        return $this->getNom();
+        return $this->getLibelle();
     }
     /**
      * Constructor
@@ -337,7 +245,7 @@ class Epi
      *
      * @param \AppBundle\Entity\Definitive $definitive
      *
-     * @return Epi
+     * @return Sortfinal
      */
     public function addDefinitive(\AppBundle\Entity\Definitive $definitive)
     {

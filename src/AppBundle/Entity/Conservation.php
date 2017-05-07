@@ -69,6 +69,11 @@ class Conservation
      */
     private $modifieLe;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Provisoire", mappedBy="conservation")
+     */
+     private $provisoires;
+
 
     /**
      * Get id
@@ -222,5 +227,50 @@ class Conservation
     public function getModifieLe()
     {
         return $this->modifieLe;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->provisoires = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add provisoire
+     *
+     * @param \AppBundle\Entity\Provisoire $provisoire
+     *
+     * @return Conservation
+     */
+    public function addProvisoire(\AppBundle\Entity\Provisoire $provisoire)
+    {
+        $this->provisoires[] = $provisoire;
+
+        return $this;
+    }
+
+    /**
+     * Remove provisoire
+     *
+     * @param \AppBundle\Entity\Provisoire $provisoire
+     */
+    public function removeProvisoire(\AppBundle\Entity\Provisoire $provisoire)
+    {
+        $this->provisoires->removeElement($provisoire);
+    }
+
+    /**
+     * Get provisoires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProvisoires()
+    {
+        return $this->provisoires;
+    }
+
+    public function __toString() {
+        return $this->getLibelle();
     }
 }

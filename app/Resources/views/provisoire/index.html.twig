@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Epi {% endblock %}
+{% block title %} Côte provisoire {% endblock %}
 
 {% block stylesheets %}
   {{ parent() }}
@@ -13,63 +13,57 @@
     <div class="layout-content-body">
       <div class="title-bar">
         <h1 class="title-bar-title">
-          <span class="d-ib">Gestion des Epis</span>
+          <span class="d-ib">Gestion des côtes provisoires</span>
         </h1>
       </div><br>
       <!-- Enregistrement -->
       <div class="row p-y-lg">
-        <div class="col-sm-12">
-          {{ form_start(edit_form, { 'attr': {'data-toggle': 'md-validator' }}) }}
+        <div class="col-sm-12 col-md-12">
+          {{ form_start(form, { 'attr': {'data-toggle': 'md-validator' }}) }}
             <div class="row">
-              <div class="col-sm-6 col-md-3">
+              <div class="col-sm-4 col-md-4">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.rayonnage) }}
-                  {{ form_errors(edit_form.rayonnage) }}
-                  <label class="md-control-label"></label>
-                  <small class="md-help-block">Intutilé du rayonnage <span style="color: red">*</span></small>
+                  {{ form_widget(form.conservation) }}
+                  {{ form_errors(form.conservation) }}
+                  <label class="md-control-label">Unité de conservation</label>
+                  <small class="md-help-block">Unité de conservation</small>
                 </div>
               </div>
-              <div class="col-sm-6 col-md-3">
+              <div class="col-sm-4 col-md-4">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.nom) }}
-                  {{ form_errors(edit_form.nom) }}
-                  <label class="md-control-label">Epi <span style="color: red;">*</span></label>
-                  <small class="md-help-block">Intutilé d'epi</small>
+                  {{ form_widget(form.sousserie) }}
+                  {{ form_errors(form.sousserie) }}
+                  <label class="md-control-label">Sous-série</label>
+                  <small class="md-help-block">Nom de la Sous-série</small>
                 </div>
               </div>
-              <div class="col-sm-6 col-md-3">
+              <div class="col-sm-4 col-md-4">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.face) }}
-                  {{ form_errors(edit_form.face) }}
-                  <label class="md-control-label">Nombre de faces</label>
-                  <small class="md-help-block">Nombre de face</small>
+                  {{ form_widget(form.nom) }}
+                  {{ form_errors(form.nom) }}
+                  <label class="md-control-label">Côte provisoire</label>
+                  <small class="md-help-block">Nom de la côte provisoire</small>
                 </div>
               </div>
-              <div class="col-sm-6 col-md-3">
+              <div class="col-sm-6 col-md-6">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.rayon) }}
-                  {{ form_errors(edit_form.rayon) }}
-                  <label class="md-control-label">Nombre de rayons</label>
-                  <small class="md-help-block">Nombre de rayons</small>
+                  {{ form_widget(form.designation) }}
+                  {{ form_errors(form.designation) }}
+                  <label class="md-control-label">Désignation</label>
+                  <small class="md-help-block">La description de la serie</small>
                 </div>
               </div>
             </div><br><br>
             <div class="row">
-              <div class="col-sm-4 col-md-2 col-md-offset-6">
-                {{ form_rest(edit_form)}}
-                <button type="submit" class="btn btn-primary btn-block">Modifier</button>
+              <div class="col-sm-4 col-md-3 col-sm-offset-4 col-md-offset-6">
+                {{ form_rest(form)}}
+                <button type="submit" class="btn btn-primary btn-block">Enregistrer</button>
               </div>
-              <div class="col-sm-4 col-md-2">
-                <a href="{{ path('epi_index')}}" class="btn btn-default btn-block">Annuler</a>
-              </div>
-              {{ form_end(edit_form)}}
-              <div class="col-sm-4 col-md-2">
-                {{ form_start(delete_form) }}
-                    <input type="submit" value="Supprimer" class="btn btn-danger btn-block" onclick="return window.confirm('Confirmez-vous la suppression de cet epi?');">
-                {{ form_end(delete_form) }}
+              <div class="col-sm-4 col-md-3">
+                <button type="reset" class="btn btn-default btn-block">Annuler</button>
               </div>
             </div>
-
+          {{ form_end(form)}}
         </div>
       </div>
       <!-- \Enregistrement -->
@@ -99,7 +93,7 @@
                 <button type="button" class="card-action card-reload"></button>
                 <button type="button" class="card-action card-remove"></button>
               </div>
-              <h5 class="m-b-0 text-center">LISTE DES EPIS</h5>
+              <h5 class="m-b-0 text-center">LISTE DES COTES PROVISOIRE</h5>
             </div>
             <div class="card-body">
               <div class="card-body">
@@ -107,23 +101,23 @@
                   <thead>
                     <tr>
                       <th class="text-center">ID</th>
-                      <th class="text-center">RAYONNAGES</th>
-                      <th class="text-center">EPIS</th>
-                      <th class="text-center">NOMBRE DE FACES</th>
-                      <th class="text-center">NOMBRE DE RAYONS</th>
+                      <th class="text-center">Unités de conservation</th>
+                      <th class="text-center">Sous séries</th>
+                      <th class="text-center">Côte provisoires</th>
+                      <th class="text-center">Descriptions</th>
                       <th class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for epi in epis %}
+                    {% for provisoire in provisoires %}
                     <tr>
                       <td class="text-right">{{ loop.index }}</td>
-                      <td class="text-center">{{ epi.rayonnage }}</td>
-                      <td class="text-center">{{ epi.nom }}</td>
-                      <td class="text-center">{{ epi.face }}</td>
-                      <td class="text-center">{{ epi.rayon }}</td>
+                      <td class="text-center">{{ provisoire.conservation }}</td>
+                      <td class="text-center">{{ provisoire.sousserie }}</td>
+                      <td class="text-left">{{ provisoire.nom }}</td>
+                      <td>{{ provisoire.designation|title }}</td>
                       <td class="text-center">
-                        <a href="{{ path('epi_edit', {'id': epi.id})}}" title="Modifier le epi {{ epi.nom|title }}">
+                        <a href="{{ path('provisoire_edit', {'slug': provisoire.slug})}}" title="Modifier la côte provisoire {{ provisoire.nom|title }}">
                           <span class="icon icon-edit"></span>
                         </a>
                       </td>
