@@ -82,6 +82,11 @@ class Sousserie
      */
     private $serie;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Provisoire", mappedBy="sousserie")
+     */
+     private $provisoires;
+
 
     /**
      * Get id
@@ -283,5 +288,46 @@ class Sousserie
     public function getSerie()
     {
         return $this->serie;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->provisoires = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add provisoire
+     *
+     * @param \AppBundle\Entity\Provisoire $provisoire
+     *
+     * @return Sousserie
+     */
+    public function addProvisoire(\AppBundle\Entity\Provisoire $provisoire)
+    {
+        $this->provisoires[] = $provisoire;
+
+        return $this;
+    }
+
+    /**
+     * Remove provisoire
+     *
+     * @param \AppBundle\Entity\Provisoire $provisoire
+     */
+    public function removeProvisoire(\AppBundle\Entity\Provisoire $provisoire)
+    {
+        $this->provisoires->removeElement($provisoire);
+    }
+
+    /**
+     * Get provisoires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProvisoires()
+    {
+        return $this->provisoires;
     }
 }

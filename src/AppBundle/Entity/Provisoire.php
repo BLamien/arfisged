@@ -6,12 +6,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Conservation
+ * Provisoire
  *
- * @ORM\Table(name="conservation")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ConservationRepository")
+ * @ORM\Table(name="provisoire")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ProvisoireRepository")
  */
-class Conservation
+class Provisoire
 {
     /**
      * @var int
@@ -25,15 +25,22 @@ class Conservation
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="string", length=25)
+     * @ORM\Column(name="nom", type="string", length=25, unique=true)
      */
-    private $libelle;
+    private $nom;
 
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"libelle"})
-     * @ORM\Column(name="slug", type="string", length=15)
+     * @ORM\Column(name="designation", type="text", nullable=true)
+     */
+    private $designation;
+
+    /**
+     * @var string
+     *
+     * @Gedmo\Slug(fields={"nom"})
+     * @ORM\Column(name="slug", type="string", length=25)
      */
     private $slug;
 
@@ -70,9 +77,16 @@ class Conservation
     private $modifieLe;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Provisoire", mappedBy="conservation")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Conservation", inversedBy="provisoires")
+     * @ORM\JoinColumn(name="conservation_id", referencedColumnName="id")
      */
-     private $provisoires;
+    private $conservation;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Sousserie", inversedBy="provisoires")
+     * @ORM\JoinColumn(name="sousserie_id", referencedColumnName="id")
+     */
+    private $sousserie;
 
 
     /**
@@ -86,27 +100,51 @@ class Conservation
     }
 
     /**
-     * Set libelle
+     * Set nom
      *
-     * @param string $libelle
+     * @param string $nom
      *
-     * @return Conservation
+     * @return Provisoire
      */
-    public function setLibelle($libelle)
+    public function setNom($nom)
     {
-        $this->libelle = strtoupper($libelle);
+        $this->nom = $nom;
 
         return $this;
     }
 
     /**
-     * Get libelle
+     * Get nom
      *
      * @return string
      */
-    public function getLibelle()
+    public function getNom()
     {
-        return $this->libelle;
+        return $this->nom;
+    }
+
+    /**
+     * Set designation
+     *
+     * @param string $designation
+     *
+     * @return Provisoire
+     */
+    public function setDesignation($designation)
+    {
+        $this->designation = $designation;
+
+        return $this;
+    }
+
+    /**
+     * Get designation
+     *
+     * @return string
+     */
+    public function getDesignation()
+    {
+        return $this->designation;
     }
 
     /**
@@ -114,7 +152,7 @@ class Conservation
      *
      * @param string $slug
      *
-     * @return Conservation
+     * @return Provisoire
      */
     public function setSlug($slug)
     {
@@ -138,7 +176,7 @@ class Conservation
      *
      * @param string $publiePar
      *
-     * @return Conservation
+     * @return Provisoire
      */
     public function setPubliePar($publiePar)
     {
@@ -162,7 +200,7 @@ class Conservation
      *
      * @param string $modifiePar
      *
-     * @return Conservation
+     * @return Provisoire
      */
     public function setModifiePar($modifiePar)
     {
@@ -186,7 +224,7 @@ class Conservation
      *
      * @param \DateTime $publieLe
      *
-     * @return Conservation
+     * @return Provisoire
      */
     public function setPublieLe($publieLe)
     {
@@ -210,7 +248,7 @@ class Conservation
      *
      * @param \DateTime $modifieLe
      *
-     * @return Conservation
+     * @return Provisoire
      */
     public function setModifieLe($modifieLe)
     {
@@ -228,45 +266,52 @@ class Conservation
     {
         return $this->modifieLe;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->provisoires = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
-     * Add provisoire
+     * Set conservation
      *
-     * @param \AppBundle\Entity\Provisoire $provisoire
+     * @param \AppBundle\Entity\Conservation $conservation
      *
-     * @return Conservation
+     * @return Provisoire
      */
-    public function addProvisoire(\AppBundle\Entity\Provisoire $provisoire)
+    public function setConservation(\AppBundle\Entity\Conservation $conservation = null)
     {
-        $this->provisoires[] = $provisoire;
+        $this->conservation = $conservation;
 
         return $this;
     }
 
     /**
-     * Remove provisoire
+     * Get conservation
      *
-     * @param \AppBundle\Entity\Provisoire $provisoire
+     * @return \AppBundle\Entity\Conservation
      */
-    public function removeProvisoire(\AppBundle\Entity\Provisoire $provisoire)
+    public function getConservation()
     {
-        $this->provisoires->removeElement($provisoire);
+        return $this->conservation;
     }
 
     /**
-     * Get provisoires
+     * Set sousserie
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @param \AppBundle\Entity\Sousserie $sousserie
+     *
+     * @return Provisoire
      */
-    public function getProvisoires()
+    public function setSousserie(\AppBundle\Entity\Sousserie $sousserie = null)
     {
-        return $this->provisoires;
+        $this->sousserie = $sousserie;
+
+        return $this;
+    }
+
+    /**
+     * Get sousserie
+     *
+     * @return \AppBundle\Entity\Sousserie
+     */
+    public function getSousserie()
+    {
+        return $this->sousserie;
     }
 }
