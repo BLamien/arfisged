@@ -1,0 +1,11 @@
+                  {% for sousrubrique in sousrubriques %}
+                    {% if sousrubrique.libelle %}
+                    <li>
+                      <a href="#">{{ sousrubrique.libelle|title }}</a> 
+                    </li>
+                    {% else %}
+                    <li>
+                      <a href="#">Aucun</a>
+                    </li>
+                    {% endif %}
+                  {% endfor %}

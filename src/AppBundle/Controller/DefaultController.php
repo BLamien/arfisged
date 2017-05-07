@@ -73,4 +73,25 @@ class DefaultController extends Controller
            'rubriques'  => $rubriques,
        ]);
      }
+
+    /**
+     * Listes des rubriques (sous-rubriques)
+     *
+     * @Route("/{id}/sous-rubriques", name="ged_sous_rubriques")
+     * @Method({"GET", "POST"})
+     */
+     public function sousrubriquesAction($id)
+     {
+       $em = $this->getDoctrine()->getManager();
+
+       $sousrubriques = $em->getRepository('AppBundle:Rubrique')->findBy(
+                                                                      array('service' => $id),
+                                                                      array('libelle' => 'ASC')
+                                                                    );
+       //dump($sousrubriques); die();
+
+       return $this->render('default/sousrubrique.html.twig', [
+           'sousrubriques'  => $sousrubriques,
+       ]);
+     }
 }

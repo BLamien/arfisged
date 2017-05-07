@@ -6,12 +6,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Service
+ * Rubrique
  *
- * @ORM\Table(name="service")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceRepository")
+ * @ORM\Table(name="rubrique")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\RubriqueRepository")
  */
-class Service
+class Rubrique
 {
     /**
      * @var int
@@ -25,17 +25,9 @@ class Service
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255, unique=true)
+     * @ORM\Column(name="libelle", type="string", length=125)
      */
-    private $nom;
-
-    /**
-     * @var string
-     *
-     * @Gedmo\Slug(fields={"nom"})
-     * @ORM\Column(name="slug", type="string", length=255)
-     */
-    private $slug;
+    private $libelle;
 
     /**
      * @var string
@@ -70,9 +62,11 @@ class Service
     private $modifieLe;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rubrique", mappedBy="service")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Service", inversedBy="rubriques")
+     * @ORM\JoinColumn(name="service_id", referencedColumnName="id")
      */
-     private $rubriques;
+    private $service;
+
 
 
     /**
@@ -86,51 +80,27 @@ class Service
     }
 
     /**
-     * Set nom
+     * Set libelle
      *
-     * @param string $nom
+     * @param string $libelle
      *
-     * @return Service
+     * @return Rubrique
      */
-    public function setNom($nom)
+    public function setLibelle($libelle)
     {
-        $this->nom = $nom;
+        $this->libelle = $libelle;
 
         return $this;
     }
 
     /**
-     * Get nom
+     * Get libelle
      *
      * @return string
      */
-    public function getNom()
+    public function getLibelle()
     {
-        return $this->nom;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     *
-     * @return Service
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
+        return $this->libelle;
     }
 
     /**
@@ -138,7 +108,7 @@ class Service
      *
      * @param string $publiePar
      *
-     * @return Service
+     * @return Rubrique
      */
     public function setPubliePar($publiePar)
     {
@@ -162,7 +132,7 @@ class Service
      *
      * @param string $modifiePar
      *
-     * @return Service
+     * @return Rubrique
      */
     public function setModifiePar($modifiePar)
     {
@@ -186,7 +156,7 @@ class Service
      *
      * @param \DateTime $publieLe
      *
-     * @return Service
+     * @return Rubrique
      */
     public function setPublieLe($publieLe)
     {
@@ -210,7 +180,7 @@ class Service
      *
      * @param \DateTime $modifieLe
      *
-     * @return Service
+     * @return Rubrique
      */
     public function setModifieLe($modifieLe)
     {
@@ -228,49 +198,28 @@ class Service
     {
         return $this->modifieLe;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->rubriques = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
-     * Add rubrique
+     * Set service
      *
-     * @param \AppBundle\Entity\Rubrique $rubrique
+     * @param \AppBundle\Entity\Service $service
      *
-     * @return Service
+     * @return Rubrique
      */
-    public function addRubrique(\AppBundle\Entity\Rubrique $rubrique)
+    public function setService(\AppBundle\Entity\Service $service = null)
     {
-        $this->rubriques[] = $rubrique;
+        $this->service = $service;
 
         return $this;
     }
 
     /**
-     * Remove rubrique
+     * Get service
      *
-     * @param \AppBundle\Entity\Rubrique $rubrique
+     * @return \AppBundle\Entity\Service
      */
-    public function removeRubrique(\AppBundle\Entity\Rubrique $rubrique)
+    public function getService()
     {
-        $this->rubriques->removeElement($rubrique);
-    }
-
-    /**
-     * Get rubriques
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRubriques()
-    {
-        return $this->rubriques;
-    }
-
-    public function __toString() {
-        return $this->getNom();
+        return $this->service;
     }
 }
