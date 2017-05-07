@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Provisoire</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ provisoire.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ provisoire.nom }}</td>
+            </tr>
+            <tr>
+                <th>Designation</th>
+                <td>{{ provisoire.designation }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ provisoire.slug }}</td>
+            </tr>
+            <tr>
+                <th>Publiepar</th>
+                <td>{{ provisoire.publiePar }}</td>
+            </tr>
+            <tr>
+                <th>Modifiepar</th>
+                <td>{{ provisoire.modifiePar }}</td>
+            </tr>
+            <tr>
+                <th>Publiele</th>
+                <td>{{ provisoire.publieLe }}</td>
+            </tr>
+            <tr>
+                <th>Modifiele</th>
+                <td>{{ provisoire.modifieLe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('provisoire_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('provisoire_edit', { 'id': provisoire.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
