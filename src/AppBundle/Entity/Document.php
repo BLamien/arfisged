@@ -184,7 +184,7 @@ class Document
      */
     public function setReference($reference)
     {
-        $this->reference = $reference;
+        $this->reference = strtoupper($reference);
 
         return $this;
     }
