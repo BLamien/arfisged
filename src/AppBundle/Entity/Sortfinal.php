@@ -74,6 +74,11 @@ class Sortfinal
      */
      private $definitives;
 
+     /**
+      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Document", mappedBy="sortfinal")
+      */
+      private $documents;
+
 
     /**
      * Get id
@@ -272,5 +277,39 @@ class Sortfinal
     public function getDefinitives()
     {
         return $this->definitives;
+    }
+
+    /**
+     * Add document
+     *
+     * @param \AppBundle\Entity\Document $document
+     *
+     * @return Sortfinal
+     */
+    public function addDocument(\AppBundle\Entity\Document $document)
+    {
+        $this->documents[] = $document;
+
+        return $this;
+    }
+
+    /**
+     * Remove document
+     *
+     * @param \AppBundle\Entity\Document $document
+     */
+    public function removeDocument(\AppBundle\Entity\Document $document)
+    {
+        $this->documents->removeElement($document);
+    }
+
+    /**
+     * Get documents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
     }
 }

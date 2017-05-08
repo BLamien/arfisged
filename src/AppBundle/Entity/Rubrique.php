@@ -67,6 +67,11 @@ class Rubrique
      */
     private $service;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Document", mappedBy="rubrique")
+     */
+     private $documents;
+
 
 
     /**
@@ -221,5 +226,50 @@ class Rubrique
     public function getService()
     {
         return $this->service;
+    }
+
+    public function __toString() {
+        return $this->getLibelle();
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add document
+     *
+     * @param \AppBundle\Entity\Document $document
+     *
+     * @return Rubrique
+     */
+    public function addDocument(\AppBundle\Entity\Document $document)
+    {
+        $this->documents[] = $document;
+
+        return $this;
+    }
+
+    /**
+     * Remove document
+     *
+     * @param \AppBundle\Entity\Document $document
+     */
+    public function removeDocument(\AppBundle\Entity\Document $document)
+    {
+        $this->documents->removeElement($document);
+    }
+
+    /**
+     * Get documents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
     }
 }

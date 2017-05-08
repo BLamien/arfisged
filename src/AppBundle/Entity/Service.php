@@ -74,6 +74,11 @@ class Service
      */
      private $rubriques;
 
+     /**
+      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Document", mappedBy="service")
+      */
+      private $documents;
+
 
     /**
      * Get id
@@ -272,5 +277,39 @@ class Service
 
     public function __toString() {
         return $this->getNom();
+    }
+
+    /**
+     * Add document
+     *
+     * @param \AppBundle\Entity\Document $document
+     *
+     * @return Service
+     */
+    public function addDocument(\AppBundle\Entity\Document $document)
+    {
+        $this->documents[] = $document;
+
+        return $this;
+    }
+
+    /**
+     * Remove document
+     *
+     * @param \AppBundle\Entity\Document $document
+     */
+    public function removeDocument(\AppBundle\Entity\Document $document)
+    {
+        $this->documents->removeElement($document);
+    }
+
+    /**
+     * Get documents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
     }
 }
