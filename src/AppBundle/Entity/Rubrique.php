@@ -32,6 +32,14 @@ class Rubrique
     /**
      * @var string
      *
+     * @Gedmo\Slug(fields={"libelle"})
+     * @ORM\Column(name="slug", type="string", length=125)
+     */
+    private $slug;
+
+    /**
+     * @var string
+     *
      * @Gedmo\Blameable(on="create")
      * @ORM\Column(name="publie_par", type="string", length=25, nullable=true)
      */
@@ -271,5 +279,29 @@ class Rubrique
     public function getDocuments()
     {
         return $this->documents;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Rubrique
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

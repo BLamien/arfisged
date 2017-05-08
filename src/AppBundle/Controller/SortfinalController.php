@@ -34,7 +34,7 @@ class SortfinalController extends Controller
             $em->persist($sortfinal);
             $em->flush();
 
-            $this->addFlash('notice', "Le sort final".$sortfinal->getLibelle()." a été crée avec succès.!");
+            $this->addFlash('notice', "Le sort final ".$sortfinal->getLibelle()." a été crée avec succès.!");
 
             return $this->redirectToRoute('sortfinal_index');
         }
@@ -107,7 +107,7 @@ class SortfinalController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('notice', "Le sort final".$sortfinal->getLibelle()." a été modifié avec succès.!");
+            $this->addFlash('notice', "Le sort final ".$sortfinal->getLibelle()." a été modifié avec succès.!");
 
             return $this->redirectToRoute('sortfinal_index');
         }
@@ -138,7 +138,7 @@ class SortfinalController extends Controller
             $em->remove($sortfinal);
             $em->flush();
 
-            $this->addFlash('notice', "Le sort final".$sortfinal->getLibelle()." a été supprimé avec succès.!");
+            $this->addFlash('notice', "Le sort final ".$sortfinal->getLibelle()." a été supprimé avec succès.!");
 
         }
 
