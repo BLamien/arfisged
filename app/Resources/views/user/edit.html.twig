@@ -1,21 +1,172 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} Comptes utilisateurs {% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('ressources/css/demo.min.css')}}">
+{% endblock %}
+
 {% block body %}
-    <h1>User edit</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Gestion des comptes utilisateurs</span>
+        </h1>
+      </div><br>
+      <!-- Enregistrement -->
+      <div class="row p-y-lg">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+          {{ form_start(edit_form, { 'attr': {'data-toggle': 'md-validator' }}) }}
+            <div class="row">
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.username) }}
+                  {{ form_errors(edit_form.username) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Nom utilisateur <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.email) }}
+                  {{ form_errors(edit_form.email) }}
+                  <label class="md-control-label">Email</label>
+                  <small class="md-help-block">Adresse email <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.password) }}
+                  {{ form_errors(edit_form.password) }}
+                  <label class="md-control-label">Mot de passe</label>
+                  <small class="md-help-block">Mot de passe  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="form-group">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(edit_form.enabled)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Activez/désactivez ce compte</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="form-group md-label-floating">
+                <label class="md-control-label">Roles</label>
+                  {{ form_widget(edit_form.roles) }}
+                  {{ form_errors(edit_form.roles) }}
+                </div>
+              </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('admin_user_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+            </div><br>
+            <div class="row">
+              <div class="col-sm-4 col-md-3 col-sm-offset-4 col-md-offset-6">
+                {{ form_rest(edit_form)}}
+                <button type="submit" class="btn btn-primary btn-block">Modifier</button>
+              </div>
+              <div class="col-sm-4 col-md-3">
+                <a href="{{ path('admin_user_index')}}" class="btn btn-default btn-block">Annuler</a>
+              </div>
+            </div>
+          {{ form_end(edit_form)}}
+        </div>
+      </div>
+      <!-- \Enregistrement -->
+      <br>
+      <!-- Message -->
+        {% for flash_message in app.session.flashBag.get('notice') %}
+          {% if flash_message %}
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+              <div class="alert alert-success alert-dismissible fade in">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <a href="#" class="alert-link">NOTIFICATION :</a> {{ flash_message }}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+        <!-- \Message -->
+        <br>
+      <!-- Tableau -->
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-actions">
+                <button type="button" class="card-action card-toggler"></button>
+                <button type="button" class="card-action card-reload"></button>
+                <button type="button" class="card-action card-remove"></button>
+              </div>
+              <h5 class="m-b-0 text-center">LISTE DES COMPTES</h5>
+            </div>
+            <div class="card-body">
+              <div class="card-body">
+                <table id="demo-datatables-buttons-2" class="table table-bordered table-striped table-nowrap dataTable" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">Nom utilisateurs</th>
+                      <th class="text-center">Emails</th>
+                      <th class="text-center">1ère connexion</th>
+                      <th class="text-center">Dernière connexion</th>
+                      <th class="text-center">Nombres</th>
+                      <th class="text-center">Roles</th>
+                      <th class="text-center">Statut</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for user in users %}
+                    <tr>
+                      <td class="text-right">{{ loop.index }}</td>
+                      <td class="text-left">{{ user.username }}</td>
+                      <td class="text-left">{{ user.email}}</td>
+                      <td class="text-center">{% if user.firstLogin %}{{ user.firstLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
+                      <td class="text-center">{% if user.lastLogin %}{{ user.lastLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
+                      <td class="text-center">{{ user.loginCount }}</td>
+                      <td class="text-left">
+                        {% if user.roles %}
+                          {% if user.roles|first == 'ROLE_ADMIN' %}
+                              Administrateur
+                          {% else %}
+                              Utilisateur
+                          {% endif %}
+                        {% endif %}
+                      </td>
+                      <td class="text-center">
+                        {% if user.enabled %}Activé{% else %}<span style="color: red;">Desactivé</span> {% endif %}
+                      </td>
+                      <td class="text-center">
+                        <a href="{{ path('admin_user_show', {'id': user.id})}}" title="Les détails du compte {{ user.username|title }}">
+                          <span class="icon icon-search"></span>
+                        </a> |
+                        <a href="{{ path('admin_user_edit', {'id': user.id})}}" title="Modifier le compte {{ user.username|title }}">
+                          <span class="icon icon-edit"></span>
+                        </a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- \Tableau -->
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('ressources/js/demo.min.js')}}"></script>
 {% endblock %}
