@@ -6,12 +6,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Service
+ * Gestionnaire
  *
- * @ORM\Table(name="service")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceRepository")
+ * @ORM\Table(name="gestionnaire")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\GestionnaireRepository")
  */
-class Service
+class Gestionnaire
 {
     /**
      * @var int
@@ -25,14 +25,42 @@ class Service
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255, unique=true)
+     * @ORM\Column(name="nom", type="string", length=25)
      */
     private $nom;
 
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"nom"})
+     * @ORM\Column(name="prenom", type="string", length=125)
+     */
+    private $prenom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fonction", type="string", length=75)
+     */
+    private $fonction;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="niveau", type="string", length=1)
+     */
+    private $niveau;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact", type="string", length=10)
+     */
+    private $contact;
+
+    /**
+     * @var string
+     *
+     * @Gedmo\Slug(fields={"fonction","prenom","nom","contact"})
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
@@ -70,19 +98,15 @@ class Service
     private $modifieLe;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rubrique", mappedBy="service")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
      */
-     private $rubriques;
+     private $user;
 
      /**
-      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Document", mappedBy="service")
-      */
-      private $documents;
-
-      /**
-       * @ORM\OneToMany(targetEntity="AppBundle\Entity\Gestionnaire", mappedBy="service")
-       */
-       private $gestionnaires;
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Service", inversedBy="gestionnaires")
+    * @ORM\JoinColumn(name="service_id", referencedColumnName="id")
+    */
+    private $service;
 
 
     /**
@@ -100,7 +124,7 @@ class Service
      *
      * @param string $nom
      *
-     * @return Service
+     * @return Gestionnaire
      */
     public function setNom($nom)
     {
@@ -120,11 +144,107 @@ class Service
     }
 
     /**
+     * Set prenom
+     *
+     * @param string $prenom
+     *
+     * @return Gestionnaire
+     */
+    public function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    /**
+     * Get prenom
+     *
+     * @return string
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * Set fonction
+     *
+     * @param string $fonction
+     *
+     * @return Gestionnaire
+     */
+    public function setFonction($fonction)
+    {
+        $this->fonction = $fonction;
+
+        return $this;
+    }
+
+    /**
+     * Get fonction
+     *
+     * @return string
+     */
+    public function getFonction()
+    {
+        return $this->fonction;
+    }
+
+    /**
+     * Set niveau
+     *
+     * @param string $niveau
+     *
+     * @return Gestionnaire
+     */
+    public function setNiveau($niveau)
+    {
+        $this->niveau = $niveau;
+
+        return $this;
+    }
+
+    /**
+     * Get niveau
+     *
+     * @return string
+     */
+    public function getNiveau()
+    {
+        return $this->niveau;
+    }
+
+    /**
+     * Set contact
+     *
+     * @param string $contact
+     *
+     * @return Gestionnaire
+     */
+    public function setContact($contact)
+    {
+        $this->contact = $contact;
+
+        return $this;
+    }
+
+    /**
+     * Get contact
+     *
+     * @return string
+     */
+    public function getContact()
+    {
+        return $this->contact;
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
      *
-     * @return Service
+     * @return Gestionnaire
      */
     public function setSlug($slug)
     {
@@ -148,7 +268,7 @@ class Service
      *
      * @param string $publiePar
      *
-     * @return Service
+     * @return Gestionnaire
      */
     public function setPubliePar($publiePar)
     {
@@ -172,7 +292,7 @@ class Service
      *
      * @param string $modifiePar
      *
-     * @return Service
+     * @return Gestionnaire
      */
     public function setModifiePar($modifiePar)
     {
@@ -196,7 +316,7 @@ class Service
      *
      * @param \DateTime $publieLe
      *
-     * @return Service
+     * @return Gestionnaire
      */
     public function setPublieLe($publieLe)
     {
@@ -220,7 +340,7 @@ class Service
      *
      * @param \DateTime $modifieLe
      *
-     * @return Service
+     * @return Gestionnaire
      */
     public function setModifieLe($modifieLe)
     {
@@ -238,117 +358,52 @@ class Service
     {
         return $this->modifieLe;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->rubriques = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
-     * Add rubrique
+     * Set user
      *
-     * @param \AppBundle\Entity\Rubrique $rubrique
+     * @param \AppBundle\Entity\User $user
      *
-     * @return Service
+     * @return Gestionnaire
      */
-    public function addRubrique(\AppBundle\Entity\Rubrique $rubrique)
+    public function setUser(\AppBundle\Entity\User $user = null)
     {
-        $this->rubriques[] = $rubrique;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Remove rubrique
+     * Get user
      *
-     * @param \AppBundle\Entity\Rubrique $rubrique
+     * @return \AppBundle\Entity\User
      */
-    public function removeRubrique(\AppBundle\Entity\Rubrique $rubrique)
+    public function getUser()
     {
-        $this->rubriques->removeElement($rubrique);
+        return $this->user;
     }
 
     /**
-     * Get rubriques
+     * Set service
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @param \AppBundle\Entity\Service $service
+     *
+     * @return Gestionnaire
      */
-    public function getRubriques()
+    public function setService(\AppBundle\Entity\Service $service = null)
     {
-        return $this->rubriques;
-    }
-
-    public function __toString() {
-        return $this->getNom();
-    }
-
-    /**
-     * Add document
-     *
-     * @param \AppBundle\Entity\Document $document
-     *
-     * @return Service
-     */
-    public function addDocument(\AppBundle\Entity\Document $document)
-    {
-        $this->documents[] = $document;
+        $this->service = $service;
 
         return $this;
     }
 
     /**
-     * Remove document
+     * Get service
      *
-     * @param \AppBundle\Entity\Document $document
+     * @return \AppBundle\Entity\Service
      */
-    public function removeDocument(\AppBundle\Entity\Document $document)
+    public function getService()
     {
-        $this->documents->removeElement($document);
-    }
-
-    /**
-     * Get documents
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDocuments()
-    {
-        return $this->documents;
-    }
-
-    /**
-     * Add gestionnaire
-     *
-     * @param \AppBundle\Entity\Gestionnaire $gestionnaire
-     *
-     * @return Service
-     */
-    public function addGestionnaire(\AppBundle\Entity\Gestionnaire $gestionnaire)
-    {
-        $this->gestionnaires[] = $gestionnaire;
-
-        return $this;
-    }
-
-    /**
-     * Remove gestionnaire
-     *
-     * @param \AppBundle\Entity\Gestionnaire $gestionnaire
-     */
-    public function removeGestionnaire(\AppBundle\Entity\Gestionnaire $gestionnaire)
-    {
-        $this->gestionnaires->removeElement($gestionnaire);
-    }
-
-    /**
-     * Get gestionnaires
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getGestionnaires()
-    {
-        return $this->gestionnaires;
+        return $this->service;
     }
 }
