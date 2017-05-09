@@ -44,7 +44,7 @@ class UserController extends Controller
             return $this->redirectToRoute('admin_user_index');
         }
 
-        $users = $em->getRepository('AppBundle:User')->findAll();
+        $users = $em->getRepository('AppBundle:User')->getUser();
 
         return $this->render('user/index.html.twig', array(
             'users' => $users,
@@ -128,7 +128,7 @@ class UserController extends Controller
           return $this->redirectToRoute('admin_user_index');
         }
 
-        $users = $em->getRepository('AppBundle:User')->findAll();
+        $users = $em->getRepository('AppBundle:User')->getUser();
 
         return $this->render('user/edit.html.twig', array(
             'user' => $user,

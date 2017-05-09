@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Comptes utilisateurs {% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('ressources/css/demo.min.css')}}">
+{% endblock %}
+
+{% block body %}
+
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Gestion des comptes utilisateurs</span>
+        </h1>
+      </div><br>
+      <!-- Enregistrement -->
+      <div class="row p-y-lg">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+          {{ form_start(form, { 'attr': {'data-toggle': 'md-validator' }}) }}
+            <div class="row">
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.nom) }}
+                  {{ form_errors(form.nom) }}
+                  <label class="md-control-label">Nom</label>
+                  <small class="md-help-block">Nom de famille <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.prenom) }}
+                  {{ form_errors(form.prenom) }}
+                  <label class="md-control-label">Prenoms</label>
+                  <small class="md-help-block">Prenoms du gestionnaire <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.contact) }}
+                  {{ form_errors(form.contact) }}
+                  <label class="md-control-label">Contact</label>
+                  <small class="md-help-block">Contact téléphonique  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.service) }}
+                  {{ form_errors(form.service) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Service  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.fonction) }}
+                  {{ form_errors(form.fonction) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Statut du gestionnaire  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.user) }}
+                  {{ form_errors(form.user) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Compte utilisateur  <span style="color: red">*</span></small>
+                </div>
+              </div>
+
+            </div><br>
+            <div class="row">
+              <div class="col-sm-4 col-md-3 col-sm-offset-4 col-md-offset-6">
+                {{ form_rest(form)}}
+                <button type="submit" class="btn btn-primary btn-block">Enregistrer</button>
+              </div>
+              <div class="col-sm-4 col-md-3">
+                <button type="reset" class="btn btn-default btn-block">Annuler</button>
+              </div>
+            </div>
+          {{ form_end(form)}}
+        </div>
+      </div>
+      <!-- \Enregistrement -->
+      <br>
+      <!-- Message -->
+        {% for flash_message in app.session.flashBag.get('notice') %}
+          {% if flash_message %}
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+              <div class="alert alert-success alert-dismissible fade in">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <a href="#" class="alert-link">NOTIFICATION :</a> {{ flash_message }}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+        <!-- \Message -->
+        <br>
+      <!-- Tableau -->
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-actions">
+                <button type="button" class="card-action card-toggler"></button>
+                <button type="button" class="card-action card-reload"></button>
+                <button type="button" class="card-action card-remove"></button>
+              </div>
+              <h5 class="m-b-0 text-center">LISTE DES GESTIONNAIRES</h5>
+            </div>
+            <div class="card-body">
+              <div class="card-body">
+                <table id="demo-datatables-buttons-2" class="table table-bordered table-striped table-nowrap dataTable" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">Services</th>
+                      <th class="text-center">Logins</th>
+                      <th class="text-center">Identités</th>
+                      <th class="text-center">Statuts</th>
+                      <th class="text-center">Contacts</th>
+                      <th class="text-center">Emails</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for gestionnaire in gestionnaires %}
+                    <tr>
+                      <td class="text-right">{{ loop.index }}</td>
+                      <td class="text-left">{{ gestionnaire.service|upper }}</td>
+                      <td class="text-center">{{ gestionnaire.user }}</td>
+                      <td class="text-left">{{ gestionnaire.nom|upper }} {{ gestionnaire.prenom|title }}</td>
+                      <td class="text-center">{{ gestionnaire.fonction }}</td>
+                      <td class="text-center">{{ gestionnaire.contact }}</td>
+                      <td class="text-center">{{ gestionnaire.user.email }}</td>
+                      <td class="text-center">
+                        <a href="{{ path('gestionnaire_show', {'slug': gestionnaire.slug})}}">
+                          <span class="icon icon-search"></span>
+                        </a> |
+                        <a href="{{ path('gestionnaire_edit', {'slug': gestionnaire.slug})}}">
+                          <span class="icon icon-edit"></span>
+                        </a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- \Tableau -->
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('ressources/js/demo.min.js')}}"></script>
+{% endblock %}
