@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Liste des documents de la rubrique {{ rubrique.libelle }}
+{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('ressources/css/demo.min.css')}}">
+{% endblock %}
+
+{% block body %}
+
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h3 class="title-bar-title">
+          <span class="d-ib">Liste des documents de la rubrique <em><u>{{ rubrique.libelle }}</u></em></span>
+        </h3>
+      </div>
+      <!-- Bouton d'ajout de document -->
+      <br><br>
+      <div class="text-center m-b">
+        <h3 class="m-b-0">
+          <a href="{{ path('document_new')}}">
+            <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
+              <span class="btn-label">
+                <span class="icon icon-plus icon-lg icon-fw"></span>
+              </span>
+              AJOUTER UN NOUVEAU DOCUMENT
+            </button>
+          </a>
+        </h3>
+        <small></small>
+      </div>
+      <br><br>
+      <!-- \Bouton d'ajout de document -->
+      <!-- Message -->
+      {% for flash_message in app.session.flashBag.get('notice') %}
+        {% if flash_message %}
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+              <div class="alert alert-success alert-dismissible fade in">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                <a href="#" class="alert-link">NOTIFICATION :</a>
+                {{ flash_message }}
+              </div>
+            </div>
+          </div>
+          <br><br>
+        {% endif %}
+      {% endfor %}
+      <!-- \Message -->
+
+      <!-- Liste des documents -->
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-actions">
+                <button type="button" class="card-action card-toggler" title="Collapse"></button>
+                <button type="button" class="card-action card-reload" title="Reload"></button>
+                <button type="button" class="card-action card-remove" title="Remove"></button>
+              </div>
+              <strong>Liste des documents de la rubrique <em>{{ rubrique.libelle }}</em></strong>
+            </div>
+            <div class="card-body">
+              <table id="demo-datatables-4" class="table table-striped table-nowrap dataTable" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th class="text-center">References</th>
+                    <th class="text-center">Libelle</th>
+                    <th class="text-center">Producteurs</th>
+                    <th class="text-center">Productions</th>
+                    <th class="text-center">Fin</th>
+                    <th class="text-center">Partage</th>
+                    <th class="text-center">Sort final</th>
+                    <th class="text-center"></th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>References</th>
+                    <th>Libelle</th>
+                    <th>Producteurs</th>
+                    <th>Productions</th>
+                    <th>Fin</th>
+                    <th></th>
+                    <th>Sort final</th>
+                    <th></th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  {% for document in documents %}
+                    <tr>
+                      <td>{{ document.reference|upper }}</td>
+                      <td>{{ document.libelle }}</td>
+                      <td>{{ document.service|upper }}</td>
+                      <td>{{ document.dateprod }}</td>
+                      <td>{{ document.datefin }}</td>
+                      <td class="text-center">
+                        {% if document.partage %}
+                            <strong>OUI</strong>
+                        {% else %}
+                            <strong>NON</strong>
+                        {% endif %}
+                      </td>
+                      <td>{{ document.sortfinal|capitalize }}</td>
+                      <td class="text-center">
+                        <a href="{{ path('document_edit', {'slug': document.slug })}}" title="">
+                          <span class="icon icon-edit"></span>
+                        </a>
+                        |
+                        <a href="{{ path('document_show', {'slug': document.slug })}}" title="">
+                          <span class="icon icon-search"></span>
+                        </a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  <br><br>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- \Liste des documents -->
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('ressources/js/demo.min.js')}}"></script>
+{% endblock %}

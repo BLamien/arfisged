@@ -16,3 +16,4 @@
 /web/bundles/
 /src/AppBundle/Entity/*~
 /app/Resources/views/default/log.html.twig
+/web/ressources/uploads/

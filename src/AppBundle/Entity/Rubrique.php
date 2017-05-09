@@ -32,6 +32,14 @@ class Rubrique
     /**
      * @var string
      *
+     * @Gedmo\Slug(fields={"libelle"})
+     * @ORM\Column(name="slug", type="string", length=125)
+     */
+    private $slug;
+
+    /**
+     * @var string
+     *
      * @Gedmo\Blameable(on="create")
      * @ORM\Column(name="publie_par", type="string", length=25, nullable=true)
      */
@@ -66,6 +74,11 @@ class Rubrique
      * @ORM\JoinColumn(name="service_id", referencedColumnName="id")
      */
     private $service;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Document", mappedBy="rubrique")
+     */
+     private $documents;
 
 
 
@@ -221,5 +234,74 @@ class Rubrique
     public function getService()
     {
         return $this->service;
+    }
+
+    public function __toString() {
+        return $this->getLibelle();
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add document
+     *
+     * @param \AppBundle\Entity\Document $document
+     *
+     * @return Rubrique
+     */
+    public function addDocument(\AppBundle\Entity\Document $document)
+    {
+        $this->documents[] = $document;
+
+        return $this;
+    }
+
+    /**
+     * Remove document
+     *
+     * @param \AppBundle\Entity\Document $document
+     */
+    public function removeDocument(\AppBundle\Entity\Document $document)
+    {
+        $this->documents->removeElement($document);
+    }
+
+    /**
+     * Get documents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Rubrique
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

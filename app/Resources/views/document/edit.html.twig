@@ -1,0 +1,185 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Modification du documment {{ document.reference }} {% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('ressources/css/demo.min.css')}}">
+{% endblock %}
+
+{% block body %}
+
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Gestion des documents</span>
+        </h1>
+      </div><br>
+      <!-- Enregistrement -->
+      <div class="row p-y-lg">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+          {{ form_start(edit_form, { 'attr': {'data-toggle': 'md-validator' }}) }}
+            <div class="row">
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.reference) }}
+                  {{ form_errors(edit_form.reference) }}
+                  <label class="md-control-label">Reference</label>
+                  <small class="md-help-block">La référence <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.service) }}
+                  {{ form_errors(edit_form.service) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Service producteur</small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.rubrique) }}
+                  {{ form_errors(edit_form.rubrique) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Emplacement</small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.libelle) }}
+                  {{ form_errors(edit_form.libelle) }}
+                  <label class="md-control-label">Titre</label>
+                  <small class="md-help-block">Le titre  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.dateprod) }}
+                  {{ form_errors(edit_form.dateprod) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Date de production  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.datefin) }}
+                  {{ form_errors(edit_form.datefin) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Date fin <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.resume) }}
+                  {{ form_errors(edit_form.resume) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Resumé du document  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.tags) }}
+                  {{ form_errors(edit_form.tags) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Mots clés  <span style="color: red"></span></small>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(edit_form.transfert)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Peut-il être transferé ?</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(edit_form.partage)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Peut-il être partagé ?</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(edit_form.stagiaire)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Est-il ouvert aux Stagiaires ?</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(edit_form.assistant)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Est-il ouvert aux Assistants ?</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(edit_form.adjoint)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Est-il ouvert aux Adjoints ?</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(edit_form.chef)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Est-il ouvert aux Chefs ?</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-5 col-md-5"><br><br>
+                <div class="form-group">
+                    {{ form_widget(edit_form.piecejointe)}}
+                </div>
+              </div>
+              <div class="col-sm-4 col-md-4"><br><br>
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(edit_form.sortfinal) }}
+                  {{ form_errors(edit_form.sortfinal) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Sort final <span style="color: red">*</span></small>
+                </div>
+              </div>
+            </div><br>
+            <div class="row">
+              <div class="col-sm-4 col-md-2 col-md-offset-6">
+                {{ form_rest(edit_form)}}
+                <button type="submit" class="btn btn-primary btn-block">Modifier</button>
+              </div>
+              <div class="col-sm-4 col-md-2">
+                <a href="{{ path('document_show', {'slug': document.slug })}}" class="btn btn-default btn-block">Annuler</a>
+              </div>
+            {{ form_end(edit_form)}}
+              <div class="col-sm-4 col-md-2">
+                {{ form_start(delete_form) }}
+                    <input type="submit" value="Supprimer" class="btn btn-danger btn-block" onclick="return window.confirm('Confirmez-vous la suppression du document de reference {{ document.reference|upper }} ?');">
+                {{ form_end(delete_form) }}
+              </div>
+            </div>
+        </div>
+      </div>
+      <!-- \Enregistrement -->
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('ressources/js/demo.min.js')}}"></script>
+{% endblock %}

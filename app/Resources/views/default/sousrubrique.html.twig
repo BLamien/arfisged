@@ -1,7 +1,7 @@
                   {% for sousrubrique in sousrubriques %}
                     {% if sousrubrique.libelle %}
                     <li>
-                      <a href="#">{{ sousrubrique.libelle|title }}</a> 
+                      <a href="{{ path('ged_document_rubrique', {'id': sousrubrique.id, 'slug': sousrubrique.slug })}}">{{ sousrubrique.libelle|title }}</a> 
                     </li>
                     {% else %}
                     <li>
