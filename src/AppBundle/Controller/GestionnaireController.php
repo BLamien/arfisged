@@ -131,6 +131,32 @@ class GestionnaireController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+            // Affection du niveau du gestionnaire
+            $fonction = $gestionnaire->getFonction();
+            switch ($fonction) {
+              case 'STAGIAIRE':
+                $niveau = 1;
+                break;
+              case 'ASSISTANT':
+                $niveau = 2;
+                break;
+              case 'ADJOINT':
+                $niveau = 3;
+                break;
+              case 'CHEF':
+                $niveau = 4;
+                break;
+              case 'DIRECTEUR':
+                $niveau = 5;
+                break;
+
+              default:
+                $niveau = 0;
+                break;
+            }
+            $gestionnaire->setNiveau($niveau);
+
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('notice', "L'utilisateur ".$gestionnaire->getNom().' '.$gestionnaire->getPrenom()." a été modifié avec succès.!");
