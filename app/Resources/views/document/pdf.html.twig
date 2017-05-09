@@ -13,12 +13,6 @@
 
   <div class="layout-content">
     <div class="layout-content-body">
-      <div class="title-bar">
-        <h1 class="title-bar-title">
-          <span class="d-ib">Gestion des documents</span>
-        </h1>
-      </div>
-      <br>
       <!-- Message -->
       {% for flash_message in app.session.flashBag.get('notice') %}
         {% if flash_message %}
@@ -37,27 +31,15 @@
       {% endfor %}
       <!-- \Message -->
       <br>
-      <div class="text-center m-b">
-        <h3 class="m-b-0">
-          <a href="{{ path('document_index')}}">
-            <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
-              <span class="btn-label">
-                <span class="icon icon-list-alt icon-lg icon-fw"></span>
-              </span>
-              LISTE DES DOCUMENTS
-            </button>
-          </a>
-        </h3>
-        <small></small>
-      </div>
-      <br><br>
       <div class="row gutter-xs">
-        <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <div class="col-xs-12">
           <div class="row">
-            <div class="col-md-5">
-              <img src="{{ asset('ressources/img/' ~ fichier )}}" alt="" class="img-responsive">
+            <div class="col-md-7" style="padding-bottom: 50px">
+              {% for doc in document.piecejointe %}
+              <iframe src="{{ asset('ressources/uploads/documents/' ~ doc.id ~'.'~ doc.url )}}" width="650px" height="890px" frameborder="0" class="responsive"></iframe>
+              {% endfor %}
             </div>
-            <div class="col-md-7">
+            <div class="col-md-5">
               <div class="row">
                 <div class="col-xs-12 text-center">
                   <h4>{{ document.libelle }}
@@ -154,6 +136,14 @@
           <br>
           <div class="row">
             <div class="col-xs-12 text-right">
+              <a href="{{ path('document_index')}}">
+                <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
+                  <span class="btn-label">
+                    <span class="icon icon-list-alt icon-lg icon-fw"></span>
+                  </span>
+                  Retour à la liste
+                </button>
+              </a>
               <a href="{{ path('document_edit', {'slug': document.slug })}}" title="">
                 <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
                   <span class="btn-label">
@@ -162,14 +152,30 @@
                   Modifier
                 </button>
               </a>
-              <a href="#" title="">
-                <button class="btn btn-primary btn-sm btn-labeled" type="button">
-                  <span class="btn-label">
+              <div class="btn-group dropup">
+                  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" type="button">
                     <span class="icon icon-download icon-lg icon-fw"></span>
-                  </span>
-                  Téléchargez
-                </button>
-              </a>
+                    Téléchargez
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    {% for doc in document.piecejointe %}
+                    <li>
+                      <a href="{{ asset('ressources/uploads/documents/' ~ doc.id ~'.'~ doc.url )}}" target="_blank">
+                        <div class="media">
+                          <div class="media-left">
+                            <span class="icon icon-file-pdf-o icon-lg icon-fw text-default"></span>
+                          </div>
+                          <div class="media-body">
+                            <span class="d-b">Page {{ loop.index }}</span>
+                            <!--<small>People can sync and edit.</small>-->
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
             </div>
           </div><br><br>
         </div>

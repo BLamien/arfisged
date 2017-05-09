@@ -164,6 +164,11 @@ class Document
      */
     private $sortfinal;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Piecejointe", cascade={"persist", "remove"})
+     */
+     private $piecejointe;
+
 
     /**
      * Get id
@@ -653,5 +658,46 @@ class Document
     public function getSortfinal()
     {
         return $this->sortfinal;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->piecejointe = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add piecejointe
+     *
+     * @param \AppBundle\Entity\Piecejointe $piecejointe
+     *
+     * @return Document
+     */
+    public function addPiecejointe(\AppBundle\Entity\Piecejointe $piecejointe)
+    {
+        $this->piecejointe[] = $piecejointe;
+
+        return $this;
+    }
+
+    /**
+     * Remove piecejointe
+     *
+     * @param \AppBundle\Entity\Piecejointe $piecejointe
+     */
+    public function removePiecejointe(\AppBundle\Entity\Piecejointe $piecejointe)
+    {
+        $this->piecejointe->removeElement($piecejointe);
+    }
+
+    /**
+     * Get piecejointe
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPiecejointe()
+    {
+        return $this->piecejointe;
     }
 }

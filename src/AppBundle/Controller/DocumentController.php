@@ -5,7 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Document;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+
+use AppBundle\Entity\Piecejointe;
 
 /**
  * Document controller.
@@ -69,9 +72,66 @@ class DocumentController extends Controller
     {
         $deleteForm = $this->createDeleteForm($document);
 
+        $doc = $document->getPiecejointe();
+
+        foreach ($doc as $key ) {
+          $ext = $key->getUrl();
+        }
+
+        if (($ext == 'pdf') || ($ext == 'PDF')) {
+          $fichier = 'icon-pdf.png';
+
+          return $this->render('document/pdf.html.twig', array(
+              'document' => $document,
+              'delete_form' => $deleteForm->createView(),
+              'fichier' => $fichier,
+          ));
+
+        } elseif (($ext == 'docx') || ($ext == 'DOCX') || ($ext == 'doc') || ($ext == 'DOC')) {
+          $fichier = 'icon-word.png';
+
+          return $this->render('document/word.html.twig', array(
+              'document' => $document,
+              'delete_form' => $deleteForm->createView(),
+              'fichier' => $fichier,
+          ));
+
+        } elseif (($ext == 'xlsx') || ($ext == 'XLSX') || ($ext == 'xls') || ($ext == 'XLS')) {
+          $fichier = 'icon-excel.png';
+
+          return $this->render('document/excel.html.twig', array(
+              'document' => $document,
+              'delete_form' => $deleteForm->createView(),
+              'fichier' => $fichier,
+          ));
+
+        } elseif(
+            ($ext == 'jpg') || ($ext == 'JPG') || ($ext == 'jpeg') || ($ext == 'JPEG') ||
+            ($ext == 'png') || ($ext == 'PNG') || ($ext == 'gif') || ($ext == 'GIF')
+          ) {
+          $fichier = 'icon-img.png';
+
+          return $this->render('document/img.html.twig', array(
+              'document' => $document,
+              'delete_form' => $deleteForm->createView(),
+              'fichier' => $fichier,
+          ));
+
+        } else{
+          $fichier = 'icon-img.png';
+
+          return $this->render('document/autre.html.twig', array(
+              'document' => $document,
+              'delete_form' => $deleteForm->createView(),
+              'fichier' => $fichier,
+          ));
+
+        }
+
         return $this->render('document/show.html.twig', array(
             'document' => $document,
             'delete_form' => $deleteForm->createView(),
+            'fichier' => $fichier,
         ));
     }
 

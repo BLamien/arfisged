@@ -6,19 +6,13 @@
 
 {% block stylesheets %}
   {{ parent() }}
-  <link rel="stylesheet" href="{{ asset('ressources/css/demo.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('ressources/css/product.min.css')}}">
 {% endblock %}
 
 {% block body %}
 
   <div class="layout-content">
     <div class="layout-content-body">
-      <div class="title-bar">
-        <h1 class="title-bar-title">
-          <span class="d-ib">Gestion des documents</span>
-        </h1>
-      </div>
-      <br>
       <!-- Message -->
       {% for flash_message in app.session.flashBag.get('notice') %}
         {% if flash_message %}
@@ -37,39 +31,33 @@
       {% endfor %}
       <!-- \Message -->
       <br>
-      <div class="text-center m-b">
-        <h3 class="m-b-0">
-          <a href="{{ path('document_index')}}">
-            <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
-              <span class="btn-label">
-                <span class="icon icon-list-alt icon-lg icon-fw"></span>
-              </span>
-              LISTE DES DOCUMENTS
-            </button>
-          </a>
-        </h3>
-        <small></small>
-      </div>
-      <br><br>
       <div class="row gutter-xs">
-        <div class="col-xs-12 col-md-8 col-md-offset-2">
-          <div class="row">
-            <div class="col-md-5">
-              <img src="{{ asset('ressources/img/' ~ fichier )}}" alt="" class="img-responsive">
+        <div class="col-xs-12">
+          <div class="product">
+            <div class="product-images">
+              <div class="flexslider">
+                <ul class="slides">
+                  <li data-thumb="{{ asset('ressources/img/icon-word.png')}}">
+                    <img src="{{ asset('ressources/img/icon-word.png')}}" alt="">
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="col-md-7">
+            <div class="product-details">
+              <h1 class="product-name">{{ document.libelle }}</h1>
+              <div class="product-divider"></div>
+              <div class="product-price">
+                <span class="product-price-current">{{ document.reference|upper }}</span>
+                <span class="product-price-old"></span>
+              </div>
+              <div class="product-rating">
+              </div>
+              <div class="product-description">
+                <p>
+                  {{ document.resume|raw }}
+                </p>
+              </div>
               <div class="row">
-                <div class="col-xs-12 text-center">
-                  <h4>{{ document.libelle }}
-                  </h4>
-                  <h5>REF:
-                    {{ document.reference|upper }}</h5>
-                </div>
-                <div class="col-xs-12">
-                  <p class="text-justify">
-                    {{ document.resume|raw }}
-                  </p>
-                </div>
                 <div class="col-xs-12">
                   <p>Service producteur:
                     <strong>{{ document.service|title }}</strong>
@@ -154,6 +142,14 @@
           <br>
           <div class="row">
             <div class="col-xs-12 text-right">
+              <a href="{{ path('document_index')}}">
+                <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
+                  <span class="btn-label">
+                    <span class="icon icon-list-alt icon-lg icon-fw"></span>
+                  </span>
+                  Retour à la liste
+                </button>
+              </a>
               <a href="{{ path('document_edit', {'slug': document.slug })}}" title="">
                 <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
                   <span class="btn-label">
@@ -162,14 +158,30 @@
                   Modifier
                 </button>
               </a>
-              <a href="#" title="">
-                <button class="btn btn-primary btn-sm btn-labeled" type="button">
-                  <span class="btn-label">
+              <div class="btn-group dropup">
+                  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" type="button">
                     <span class="icon icon-download icon-lg icon-fw"></span>
-                  </span>
-                  Téléchargez
-                </button>
-              </a>
+                    Téléchargez
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    {% for doc in document.piecejointe %}
+                    <li>
+                      <a href="{{ asset('ressources/uploads/documents/' ~ doc.id ~'.'~ doc.url )}}" target="_blank">
+                        <div class="media">
+                          <div class="media-left">
+                            <span class="icon icon-file-word-o icon-lg icon-fw text-default"></span>
+                          </div>
+                          <div class="media-body">
+                            <span class="d-b">Fichier {{ loop.index }}</span>
+                            <!--<small>People can sync and edit.</small>-->
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
             </div>
           </div><br><br>
         </div>
@@ -182,5 +194,5 @@
 
 {% block javascripts %}
   {{ parent() }}
-  <script src="{{ asset('ressources/js/demo.min.js')}}"></script>
+  <script src="{{ asset('ressources/js/product.min.js')}}"></script>
 {% endblock %}

@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use AppBundle\Entity\Piecejointe;
+use AppBundle\Entity\Document;
 
 /**
  * Piecejointe
  *
- * @ORM\Table(name="imgphototheque")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\imgphotothequeRepository")
+ * @ORM\Table(name="piecejointe")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PiecejointeRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Piecejointe
@@ -39,14 +39,6 @@ class Piecejointe
      * @ORM\Column(name="alt", type="string", length=255, nullable=true)
      */
     private $alt;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="uploaddir", type="string", length=255, nullable=true)
-     */
-    private $uploadDir;
-
 
     /**
      * Get id
@@ -158,30 +150,11 @@ class Piecejointe
           }
         }
 
-        /**
-         * Set uploadDir
-         *
-         * @param string $uploadDir
-         *
-         * @return Piecejointe
-         */
-        public function setUploadDir($uploadDir)
-        {
-            $this->uploadDir = $uploadDir;
-
-            return $this;
-        }
-
-        /**
-         * Get uploadDir
-         *
-         * @return string
-         */
         public function getUploadDir()
         {
             // On retourne le chemin relatif vers l'image pour un navigateur
-            //return 'phototheque';
-            return $this->uploadDir;
+            return 'documents';
+            //return $this->uploadDir;
         }
 
         protected function getUploadRootDir()

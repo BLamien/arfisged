@@ -10,6 +10,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
+use AppBundle\Form\PiecejointeType;
+use AppBundle\Entity\Piecejointe;
 
 class DocumentType extends AbstractType
 {
@@ -124,6 +128,11 @@ class DocumentType extends AbstractType
                       'class' => 'md-form-control',
                   ),
                 'class' => 'AppBundle:Sortfinal'
+            ))
+            ->add('piecejointe', CollectionType::class, array(
+                  'entry_type'          =>  PiecejointeType::class,
+                  'allow_add'     => true,
+                  'allow_delete'  => true,
             ))
             ;
     }
