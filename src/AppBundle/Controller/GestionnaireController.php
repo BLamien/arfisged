@@ -10,14 +10,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Gestionnaire controller.
  *
- * @Route("gestionnaire")
+ * @Route("admin/gestionnaire")
  */
 class GestionnaireController extends Controller
 {
     /**
      * Lists all gestionnaire entities.
      *
-     * @Route("/", name="gestionnaire_index")
+     * @Route("/", name="admin_gestionnaire_index")
      * @Method({"GET", "POST"})
      */
     public function indexAction(Request $request)
@@ -62,7 +62,7 @@ class GestionnaireController extends Controller
 
             $this->addFlash('notice', "L'utilisateur ".$gestionnaire->getNom().' '.$gestionnaire->getPrenom()." a été crée avec succès.!");
 
-            return $this->redirectToRoute('gestionnaire_index');
+            return $this->redirectToRoute('admin_gestionnaire_index');
         }
 
         $gestionnaires = $em->getRepository('AppBundle:Gestionnaire')->findAll();
@@ -77,7 +77,7 @@ class GestionnaireController extends Controller
     /**
      * Creates a new gestionnaire entity.
      *
-     * @Route("/new", name="gestionnaire_new")
+     * @Route("/new", name="admin_gestionnaire_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -91,7 +91,7 @@ class GestionnaireController extends Controller
             $em->persist($gestionnaire);
             $em->flush();
 
-            return $this->redirectToRoute('gestionnaire_show', array('slug' => $gestionnaire->getSlug()));
+            return $this->redirectToRoute('admin_gestionnaire_show', array('slug' => $gestionnaire->getSlug()));
         }
 
         return $this->render('gestionnaire/new.html.twig', array(
@@ -103,7 +103,7 @@ class GestionnaireController extends Controller
     /**
      * Finds and displays a gestionnaire entity.
      *
-     * @Route("/{slug}", name="gestionnaire_show")
+     * @Route("/{slug}", name="admin_gestionnaire_show")
      * @Method("GET")
      */
     public function showAction(Gestionnaire $gestionnaire)
@@ -119,7 +119,7 @@ class GestionnaireController extends Controller
     /**
      * Displays a form to edit an existing gestionnaire entity.
      *
-     * @Route("/{slug}/edit", name="gestionnaire_edit")
+     * @Route("/{slug}/edit", name="admin_gestionnaire_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Gestionnaire $gestionnaire)
@@ -161,7 +161,7 @@ class GestionnaireController extends Controller
 
             $this->addFlash('notice', "L'utilisateur ".$gestionnaire->getNom().' '.$gestionnaire->getPrenom()." a été modifié avec succès.!");
 
-            return $this->redirectToRoute('gestionnaire_index');
+            return $this->redirectToRoute('admin_gestionnaire_index');
         }
 
         $gestionnaires = $em->getRepository('AppBundle:Gestionnaire')->findAll();
@@ -177,7 +177,7 @@ class GestionnaireController extends Controller
     /**
      * Deletes a gestionnaire entity.
      *
-     * @Route("/{id}", name="gestionnaire_delete")
+     * @Route("/{id}", name="admin_gestionnaire_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Gestionnaire $gestionnaire)
@@ -193,7 +193,7 @@ class GestionnaireController extends Controller
             $this->addFlash('notice', "L'utilisateur ".$gestionnaire->getNom().' '.$gestionnaire->getPrenom()." a été supprimé avec succès.!");
         }
 
-        return $this->redirectToRoute('gestionnaire_index');
+        return $this->redirectToRoute('admin_gestionnaire_index');
     }
 
     /**
@@ -206,7 +206,7 @@ class GestionnaireController extends Controller
     private function createDeleteForm(Gestionnaire $gestionnaire)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('gestionnaire_delete', array('id' => $gestionnaire->getId())))
+            ->setAction($this->generateUrl('admin_gestionnaire_delete', array('id' => $gestionnaire->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

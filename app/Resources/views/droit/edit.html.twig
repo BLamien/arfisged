@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Modification du compte utilisateur {{ gestionnaire.prenom|title }} {{ gestionnaire.nom|upper }} {% endblock %}
+{% block title %} Droits d'accès {% endblock %}
 
 {% block stylesheets %}
   {{ parent() }}
@@ -13,7 +13,7 @@
     <div class="layout-content-body">
       <div class="title-bar">
         <h1 class="title-bar-title">
-          <span class="d-ib">Gestion du compte utilisateur <em>{{ gestionnaire.prenom|title }} {{ gestionnaire.nom|upper }}</em></span>
+          <span class="d-ib">Gestion des droits d'accès</span>
         </h1>
       </div><br>
       <!-- Enregistrement -->
@@ -21,52 +21,38 @@
         <div class="col-sm-12 col-md-10 col-md-offset-1">
           {{ form_start(edit_form, { 'attr': {'data-toggle': 'md-validator' }}) }}
             <div class="row">
-              <div class="col-sm-6 col-md-4">
+              <div class="col-sm-5 col-md-5">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.nom) }}
-                  {{ form_errors(edit_form.nom) }}
-                  <label class="md-control-label">Nom</label>
-                  <small class="md-help-block">Nom de famille <span style="color: red">*</span></small>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4">
-                <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.prenom) }}
-                  {{ form_errors(edit_form.prenom) }}
-                  <label class="md-control-label">Prenoms</label>
-                  <small class="md-help-block">Prenoms du gestionnaire <span style="color: red">*</span></small>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4">
-                <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.contact) }}
-                  {{ form_errors(edit_form.contact) }}
-                  <label class="md-control-label">Contact</label>
-                  <small class="md-help-block">Contact téléphonique  <span style="color: red">*</span></small>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4">
-                <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.service) }}
-                  {{ form_errors(edit_form.service) }}
+                  {{ form_widget(edit_form.rubrique) }}
+                  {{ form_errors(edit_form.rubrique) }}
                   <label class="md-control-label"></label>
-                  <small class="md-help-block">Service  <span style="color: red">*</span></small>
+                  <small class="md-help-block">Rubrique <span style="color: red">*</span></small>
                 </div>
               </div>
-              <div class="col-sm-6 col-md-4">
+              <div class="col-sm-5 col-md-5">
                 <div class="md-form-group md-label-floating">
                   {{ form_widget(edit_form.fonction) }}
                   {{ form_errors(edit_form.fonction) }}
                   <label class="md-control-label"></label>
-                  <small class="md-help-block">Statut du gestionnaire  <span style="color: red">*</span></small>
+                  <small class="md-help-block">Statut dans le service <span style="color: red">*</span></small>
                 </div>
               </div>
-              <div class="col-sm-6 col-md-4">
-                <div class="md-form-group md-label-floating">
-                  {{ form_widget(edit_form.user) }}
-                  {{ form_errors(edit_form.user) }}
-                  <label class="md-control-label"></label>
-                  <small class="md-help-block">Compte utilisateur  <span style="color: red">*</span></small>
+              <div class="col-sm-2 col-md-2">
+                <div class="form-group">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(edit_form.lecture)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Lecture</span>
+                    </label>
+                  </div>
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(edit_form.ecriture)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Ecriture</span>
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -77,7 +63,7 @@
                 <button type="submit" class="btn btn-primary btn-block">Modifier</button>
               </div>
               <div class="col-sm-4 col-md-3">
-                <a href="{{ path('admin_gestionnaire_index')}}" class="btn btn-default btn-block">Annuler</a>
+                <button type="reset" class="btn btn-default btn-block">Annuler</button>
               </div>
             </div>
           {{ form_end(edit_form)}}
@@ -110,7 +96,7 @@
                 <button type="button" class="card-action card-reload"></button>
                 <button type="button" class="card-action card-remove"></button>
               </div>
-              <h5 class="m-b-0 text-center">LISTE DES GESTIONNAIRES</h5>
+              <h5 class="m-b-0 text-center">LISTE DES DROITS</h5>
             </div>
             <div class="card-body">
               <div class="card-body">
@@ -119,29 +105,36 @@
                     <tr>
                       <th class="text-center">ID</th>
                       <th class="text-center">Services</th>
-                      <th class="text-center">Logins</th>
-                      <th class="text-center">Identités</th>
+                      <th class="text-center">Rubriques</th>
                       <th class="text-center">Statuts</th>
-                      <th class="text-center">Contacts</th>
-                      <th class="text-center">Emails</th>
+                      <th class="text-center">Lectures</th>
+                      <th class="text-center">Ecritures</th>
                       <th class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for gestionnaire in gestionnaires %}
+                    {% for droit in droits %}
                     <tr>
                       <td class="text-right">{{ loop.index }}</td>
-                      <td class="text-left">{{ gestionnaire.service|upper }}</td>
-                      <td class="text-center">{{ gestionnaire.user }}</td>
-                      <td class="text-left">{{ gestionnaire.nom|upper }} {{ gestionnaire.prenom|title }}</td>
-                      <td class="text-center">{{ gestionnaire.fonction }}</td>
-                      <td class="text-center">{{ gestionnaire.contact }}</td>
-                      <td class="text-center">{{ gestionnaire.user.email }}</td>
+                      <td class="text-left">{{ droit.rubrique.service|upper }}</td>
+                      <td class="text-left">{{ droit.rubrique|title }}</td>
+                      <td class="text-left">{{ droit.fonction|capitalize }}</td>
                       <td class="text-center">
-                        <a href="{{ path('admin_gestionnaire_show', {'slug': gestionnaire.slug})}}">
-                          <span class="icon icon-search"></span>
-                        </a> |
-                        <a href="{{ path('admin_gestionnaire_edit', {'slug': gestionnaire.slug})}}">
+                        {% if droit.lecture %}
+                            OUI
+                        {% else %}
+                            <span style="color: red;">NON</span>
+                        {% endif %}
+                      </td>
+                      <td class="text-center">
+                        {% if droit.ecriture %}
+                            OUI
+                        {% else %}
+                            <span style="color: red;">NON</span>
+                        {% endif %}
+                      </td>
+                      <td class="text-center">
+                        <a href="{{ path('admin_droit_edit', {'id': droit.id})}}">
                           <span class="icon icon-edit"></span>
                         </a>
                       </td>
