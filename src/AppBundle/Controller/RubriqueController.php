@@ -24,6 +24,14 @@ class RubriqueController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $user = $this->getUser();
+
+        // test de droit d'accès
+        $acces = $this->get('autorisation')->droitacces($user); // Service
+        if ($acces) {
+          return $acces;
+        }
+
         // Enregistrement
         $rubrique = new Rubrique();
         $form = $this->createForm('AppBundle\Form\RubriqueType', $rubrique);
@@ -60,6 +68,8 @@ class RubriqueController extends Controller
         $form = $this->createForm('AppBundle\Form\RubriqueType', $rubrique);
         $form->handleRequest($request);
 
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($rubrique);
@@ -84,6 +94,8 @@ class RubriqueController extends Controller
     {
         $deleteForm = $this->createDeleteForm($rubrique);
 
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
         return $this->render('rubrique/show.html.twig', array(
             'rubrique' => $rubrique,
             'delete_form' => $deleteForm->createView(),
@@ -99,7 +111,15 @@ class RubriqueController extends Controller
     public function editAction(Request $request, Rubrique $rubrique)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
+        $user = $this->getUser();
+
+        // test de droit d'accès
+        $acces = $this->get('autorisation')->droitacces($user); // Service
+        if ($acces) {
+          return $acces;
+        }
+
         $deleteForm = $this->createDeleteForm($rubrique);
         $editForm = $this->createForm('AppBundle\Form\RubriqueType', $rubrique);
         $editForm->handleRequest($request);

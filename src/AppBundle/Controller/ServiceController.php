@@ -25,6 +25,14 @@ class ServiceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $user = $this->getUser();
+
+        // test de droit d'accès
+        $acces = $this->get('autorisation')->droitacces($user); // Service
+        if ($acces) {
+          return $acces;
+        }
+
         // Enregistrement
         $service = new Service();
         $form = $this->createForm('AppBundle\Form\ServiceType', $service);
@@ -61,6 +69,8 @@ class ServiceController extends Controller
         $form = $this->createForm('AppBundle\Form\ServiceType', $service);
         $form->handleRequest($request);
 
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($service);
@@ -85,6 +95,8 @@ class ServiceController extends Controller
     {
         $deleteForm = $this->createDeleteForm($service);
 
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
         return $this->render('service/show.html.twig', array(
             'service' => $service,
             'delete_form' => $deleteForm->createView(),
@@ -100,6 +112,14 @@ class ServiceController extends Controller
     public function editAction(Request $request, Service $service)
     {
         $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+
+        // test de droit d'accès
+        $acces = $this->get('autorisation')->droitacces($user); // Service
+        if ($acces) {
+          return $acces;
+        }
 
         $deleteForm = $this->createDeleteForm($service);
         $editForm = $this->createForm('AppBundle\Form\ServiceType', $service);

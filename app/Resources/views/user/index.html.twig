@@ -119,7 +119,7 @@
                       <th class="text-center">Nombres</th>
                       <th class="text-center">Roles</th>
                       <th class="text-center">Statut</th>
-                      <th class="text-center">Actions</th>
+                      <th class="text-center"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -144,9 +144,6 @@
                         {% if user.enabled %}Activé{% else %}<span style="color: red;">Desactivé</span> {% endif %}
                       </td>
                       <td class="text-center">
-                        <a href="{{ path('admin_user_show', {'id': user.id})}}" title="Les détails du compte {{ user.username|title }}">
-                          <span class="icon icon-search"></span>
-                        </a> |
                         <a href="{{ path('admin_user_edit', {'id': user.id})}}" title="Modifier le compte {{ user.username|title }}">
                           <span class="icon icon-edit"></span>
                         </a>
