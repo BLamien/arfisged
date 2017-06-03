@@ -23,44 +23,50 @@
             <div class="row">
               <div class="col-sm-6 col-md-4">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(form.username) }}
-                  {{ form_errors(form.username) }}
+                  {{ form_widget(form.nom) }}
+                  {{ form_errors(form.nom) }}
+                  <label class="md-control-label">Nom</label>
+                  <small class="md-help-block">Nom de famille <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.prenom) }}
+                  {{ form_errors(form.prenom) }}
+                  <label class="md-control-label">Prenoms</label>
+                  <small class="md-help-block">Prenoms du gestionnaire <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.contact) }}
+                  {{ form_errors(form.contact) }}
+                  <label class="md-control-label">Contact</label>
+                  <small class="md-help-block">Contact téléphonique  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.service) }}
+                  {{ form_errors(form.service) }}
                   <label class="md-control-label"></label>
-                  <small class="md-help-block">Nom utilisateur <span style="color: red">*</span></small>
+                  <small class="md-help-block">Service  <span style="color: red">*</span></small>
                 </div>
               </div>
               <div class="col-sm-6 col-md-4">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(form.email) }}
-                  {{ form_errors(form.email) }}
-                  <label class="md-control-label">Email</label>
-                  <small class="md-help-block">Adresse email <span style="color: red">*</span></small>
+                  {{ form_widget(form.fonction) }}
+                  {{ form_errors(form.fonction) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Statut du gestionnaire  <span style="color: red">*</span></small>
                 </div>
               </div>
               <div class="col-sm-6 col-md-4">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(form.password) }}
-                  {{ form_errors(form.password) }}
-                  <label class="md-control-label">Mot de passe</label>
-                  <small class="md-help-block">Mot de passe  <span style="color: red">*</span></small>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4 hidden-xs hidden-sm hidden-md hidden-lg">
-                <div class="form-group">
-                  <div class="custom-controls-stacked m-t">
-                    <label class="custom-control custom-control-primary custom-checkbox">
-                      {{ form_widget(form.enabled)}}
-                      <span class="custom-control-indicator"></span>
-                      <span class="custom-control-label">Activez/désactivez ce compte</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-6">
-                <div class="form-group md-label-floating">
-                <label class="md-control-label">Roles</label>
-                  {{ form_widget(form.roles) }}
-                  {{ form_errors(form.roles) }}
+                  {{ form_widget(form.user) }}
+                  {{ form_errors(form.user) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Compte utilisateur  <span style="color: red">*</span></small>
                 </div>
               </div>
 
@@ -104,7 +110,7 @@
                 <button type="button" class="card-action card-reload"></button>
                 <button type="button" class="card-action card-remove"></button>
               </div>
-              <h5 class="m-b-0 text-center">LISTE DES COMPTES</h5>
+              <h5 class="m-b-0 text-center">LISTE DES GESTIONNAIRES</h5>
             </div>
             <div class="card-body">
               <div class="card-body">
@@ -112,39 +118,30 @@
                   <thead>
                     <tr>
                       <th class="text-center">ID</th>
-                      <th class="text-center">Nom utilisateurs</th>
+                      <th class="text-center">Services</th>
+                      <th class="text-center">Logins</th>
+                      <th class="text-center">Identités</th>
+                      <th class="text-center">Statuts</th>
+                      <th class="text-center">Contacts</th>
                       <th class="text-center">Emails</th>
-                      <th class="text-center">1ère connexion</th>
-                      <th class="text-center">Dernière connexion</th>
-                      <th class="text-center">Nombres</th>
-                      <th class="text-center">Roles</th>
-                      <th class="text-center">Statut</th>
-                      <th class="text-center"></th>
+                      <th class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for user in users %}
+                    {% for gestionnaire in gestionnaires %}
                     <tr>
                       <td class="text-right">{{ loop.index }}</td>
-                      <td class="text-left">{{ user.username }}</td>
-                      <td class="text-left">{{ user.email}}</td>
-                      <td class="text-center">{% if user.firstLogin %}{{ user.firstLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
-                      <td class="text-center">{% if user.lastLogin %}{{ user.lastLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
-                      <td class="text-center">{{ user.loginCount }}</td>
-                      <td class="text-left">
-                        {% if user.roles %}
-                          {% if user.roles|first == 'ROLE_ADMIN' %}
-                              Administrateur
-                          {% else %}
-                              Utilisateur
-                          {% endif %}
-                        {% endif %}
-                      </td>
+                      <td class="text-left">{{ gestionnaire.service|upper }}</td>
+                      <td class="text-center">{{ gestionnaire.user }}</td>
+                      <td class="text-left">{{ gestionnaire.nom|upper }} {{ gestionnaire.prenom|title }}</td>
+                      <td class="text-center">{{ gestionnaire.fonction }}</td>
+                      <td class="text-center">{{ gestionnaire.contact }}</td>
+                      <td class="text-center">{{ gestionnaire.user.email }}</td>
                       <td class="text-center">
-                        {% if user.enabled %}Activé{% else %}<span style="color: red;">Desactivé</span> {% endif %}
-                      </td>
-                      <td class="text-center">
-                        <a href="{{ path('admin_user_edit', {'id': user.id})}}" title="Modifier le compte {{ user.username|title }}">
+                        <a href="{{ path('admin_gestionnaire_show', {'slug': gestionnaire.slug})}}">
+                          <span class="icon icon-search"></span>
+                        </a> |
+                        <a href="{{ path('admin_gestionnaire_edit', {'slug': gestionnaire.slug})}}">
                           <span class="icon icon-edit"></span>
                         </a>
                       </td>

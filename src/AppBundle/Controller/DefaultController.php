@@ -16,6 +16,7 @@ class DefaultController extends Controller
     {
         $session = $request->getSession();
         $userIp = $request->getClientIp();
+        $user = $this->getUser();
 
         // Si la session user_connecte n'existe alors logger user vient de se connecter
         // sinon user consulte le tableau de bord
@@ -44,6 +45,9 @@ class DefaultController extends Controller
 
           // Enregistrement de la session
           $session->set('userConnecte', $this->getUser());
+
+          // Si c'est une première connexion alors suggerer le changement de mot de passe.
+          if (($user->getLoginCount()) === 1) return $this->render('default/pconnexion.html.twig');
 
         } else {
           $user = $this->getUser();
@@ -94,4 +98,16 @@ class DefaultController extends Controller
            'sousrubriques'  => $sousrubriques,
        ]);
      }
+
+    /**
+     * Redirection à la page de changement de mot de passe si première connexion
+     *
+     * @Route("/premiere-conexion", name="premiere_connexion")
+     */
+    public function pconnexionAction()
+    {
+
+
+        //dump($user->getLoginCount());die();
+    }
 }

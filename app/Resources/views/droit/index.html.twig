@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Comptes utilisateurs {% endblock %}
+{% block title %} Droits d'accès {% endblock %}
 
 {% block stylesheets %}
   {{ parent() }}
@@ -13,7 +13,7 @@
     <div class="layout-content-body">
       <div class="title-bar">
         <h1 class="title-bar-title">
-          <span class="d-ib">Gestion des comptes utilisateurs</span>
+          <span class="d-ib">Gestion des droits d'accès</span>
         </h1>
       </div><br>
       <!-- Enregistrement -->
@@ -21,46 +21,38 @@
         <div class="col-sm-12 col-md-10 col-md-offset-1">
           {{ form_start(form, { 'attr': {'data-toggle': 'md-validator' }}) }}
             <div class="row">
-              <div class="col-sm-6 col-md-4">
+              <div class="col-sm-5 col-md-5">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(form.username) }}
-                  {{ form_errors(form.username) }}
+                  {{ form_widget(form.rubrique) }}
+                  {{ form_errors(form.rubrique) }}
                   <label class="md-control-label"></label>
-                  <small class="md-help-block">Nom utilisateur <span style="color: red">*</span></small>
+                  <small class="md-help-block">Rubrique <span style="color: red">*</span></small>
                 </div>
               </div>
-              <div class="col-sm-6 col-md-4">
+              <div class="col-sm-5 col-md-5">
                 <div class="md-form-group md-label-floating">
-                  {{ form_widget(form.email) }}
-                  {{ form_errors(form.email) }}
-                  <label class="md-control-label">Email</label>
-                  <small class="md-help-block">Adresse email <span style="color: red">*</span></small>
+                  {{ form_widget(form.fonction) }}
+                  {{ form_errors(form.fonction) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Statut dans le service <span style="color: red">*</span></small>
                 </div>
               </div>
-              <div class="col-sm-6 col-md-4">
-                <div class="md-form-group md-label-floating">
-                  {{ form_widget(form.password) }}
-                  {{ form_errors(form.password) }}
-                  <label class="md-control-label">Mot de passe</label>
-                  <small class="md-help-block">Mot de passe  <span style="color: red">*</span></small>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4 hidden-xs hidden-sm hidden-md hidden-lg">
+              <div class="col-sm-2 col-md-2">
                 <div class="form-group">
                   <div class="custom-controls-stacked m-t">
                     <label class="custom-control custom-control-primary custom-checkbox">
-                      {{ form_widget(form.enabled)}}
+                      {{ form_widget(form.lecture)}}
                       <span class="custom-control-indicator"></span>
-                      <span class="custom-control-label">Activez/désactivez ce compte</span>
+                      <span class="custom-control-label">Lecture</span>
                     </label>
                   </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-6">
-                <div class="form-group md-label-floating">
-                <label class="md-control-label">Roles</label>
-                  {{ form_widget(form.roles) }}
-                  {{ form_errors(form.roles) }}
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(form.ecriture)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Ecriture</span>
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -104,7 +96,7 @@
                 <button type="button" class="card-action card-reload"></button>
                 <button type="button" class="card-action card-remove"></button>
               </div>
-              <h5 class="m-b-0 text-center">LISTE DES COMPTES</h5>
+              <h5 class="m-b-0 text-center">LISTE DES DROITS</h5>
             </div>
             <div class="card-body">
               <div class="card-body">
@@ -112,39 +104,37 @@
                   <thead>
                     <tr>
                       <th class="text-center">ID</th>
-                      <th class="text-center">Nom utilisateurs</th>
-                      <th class="text-center">Emails</th>
-                      <th class="text-center">1ère connexion</th>
-                      <th class="text-center">Dernière connexion</th>
-                      <th class="text-center">Nombres</th>
-                      <th class="text-center">Roles</th>
-                      <th class="text-center">Statut</th>
-                      <th class="text-center"></th>
+                      <th class="text-center">Services</th>
+                      <th class="text-center">Rubriques</th>
+                      <th class="text-center">Statuts</th>
+                      <th class="text-center">Lectures</th>
+                      <th class="text-center">Ecritures</th>
+                      <th class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for user in users %}
+                    {% for droit in droits %}
                     <tr>
                       <td class="text-right">{{ loop.index }}</td>
-                      <td class="text-left">{{ user.username }}</td>
-                      <td class="text-left">{{ user.email}}</td>
-                      <td class="text-center">{% if user.firstLogin %}{{ user.firstLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
-                      <td class="text-center">{% if user.lastLogin %}{{ user.lastLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
-                      <td class="text-center">{{ user.loginCount }}</td>
-                      <td class="text-left">
-                        {% if user.roles %}
-                          {% if user.roles|first == 'ROLE_ADMIN' %}
-                              Administrateur
-                          {% else %}
-                              Utilisateur
-                          {% endif %}
+                      <td class="text-left">{{ droit.rubrique.service|upper }}</td>
+                      <td class="text-left">{{ droit.rubrique|title }}</td>
+                      <td class="text-left">{{ droit.fonction|capitalize }}</td>
+                      <td class="text-center">
+                        {% if droit.lecture %}
+                            OUI
+                        {% else %}
+                            <span style="color: red;">NON</span>
                         {% endif %}
                       </td>
                       <td class="text-center">
-                        {% if user.enabled %}Activé{% else %}<span style="color: red;">Desactivé</span> {% endif %}
+                        {% if droit.ecriture %}
+                            OUI
+                        {% else %}
+                            <span style="color: red;">NON</span>
+                        {% endif %}
                       </td>
                       <td class="text-center">
-                        <a href="{{ path('admin_user_edit', {'id': user.id})}}" title="Modifier le compte {{ user.username|title }}">
+                        <a href="{{ path('admin_droit_edit', {'id': droit.id})}}">
                           <span class="icon icon-edit"></span>
                         </a>
                       </td>

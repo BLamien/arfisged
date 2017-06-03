@@ -80,6 +80,11 @@ class Rubrique
      */
      private $documents;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Droit", mappedBy="rubrique")
+     */
+    private $droits;
+
 
 
     /**
@@ -303,5 +308,39 @@ class Rubrique
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Add droit
+     *
+     * @param \AppBundle\Entity\Droit $droit
+     *
+     * @return Rubrique
+     */
+    public function addDroit(\AppBundle\Entity\Droit $droit)
+    {
+        $this->droits[] = $droit;
+
+        return $this;
+    }
+
+    /**
+     * Remove droit
+     *
+     * @param \AppBundle\Entity\Droit $droit
+     */
+    public function removeDroit(\AppBundle\Entity\Droit $droit)
+    {
+        $this->droits->removeElement($droit);
+    }
+
+    /**
+     * Get droits
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDroits()
+    {
+        return $this->droits;
     }
 }

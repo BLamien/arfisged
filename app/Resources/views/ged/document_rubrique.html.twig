@@ -27,7 +27,7 @@
               <span class="btn-label">
                 <span class="icon icon-plus icon-lg icon-fw"></span>
               </span>
-              AJOUTER UN NOUVEAU DOCUMENT
+              {% if ecriture %}AJOUTER UN NOUVEAU DOCUMENT{% endif %}
             </button>
           </a>
         </h3>
@@ -109,13 +109,16 @@
                       </td>
                       <td>{{ document.sortfinal|capitalize }}</td>
                       <td class="text-center">
+                        {% if ecriture %}
                         <a href="{{ path('document_edit', {'slug': document.slug })}}" title="">
                           <span class="icon icon-edit"></span>
-                        </a>
-                        |
+                        </a> |
+                        {% endif %}                        
+                        {% if lecture %}
                         <a href="{{ path('document_show', {'slug': document.slug })}}" title="">
                           <span class="icon icon-search"></span>
                         </a>
+                        {% endif %}
                       </td>
                     </tr>
                   {% endfor %}

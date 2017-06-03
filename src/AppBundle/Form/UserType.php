@@ -22,24 +22,41 @@ class UserType extends AbstractType
         $builder
         ->add('username', TextType::class, array(
               'attr'  => array(
-                  'class' => 'form-control',
-                  'autocomplete'  => 'off'
-              )
+                  'class' => 'md-form-control',
+                  'autocomplete'  => 'off',
+                  'spellcheck'  => "false",
+                  'data-msg-required' =>  "Veuillez entrer le nom utilisateur.",
+              ),
+              'required'  => true,
         ))
         //->add('usernameCanonical')
         ->add('email', EmailType::class, array(
-              'attr'  => array(
-                  'class' => 'form-control',
-                  'autocomplete'  => 'off'
-              )
+            'attr'  => array(
+                'class' => 'md-form-control',
+                'autocomplete'  => 'off',
+                'spellcheck'  => "false",
+                'data-msg-required' =>  "Veuillez entrer l'adresse email.",
+            ),
+            'required'  => true,
         ))
         //->add('emailCanonical')
-        ->add('enabled')
+        ->add('enabled', null, array(
+              'attr'  => array(
+                  'class' => 'custom-control-input',
+              ),
+              'required'  => false,
+        ))
         //->add('salt')
         ->add('password', PasswordType::class, array(
-              'attr'  => array(
-                  'class' => 'form-control'
-              )
+            'attr'  => array(
+                'class' => 'md-form-control',
+                'autocomplete'  => 'off',
+                'spellcheck'  => "false",
+                'data-rule-minlength' =>  "6",
+                'data-msg-required' =>  "Veuillez entrer le mot de passe.",
+                'data-msg-minlength'  =>  "Veuillez entrer au moins 6 caractères.",
+            ),
+            'required'  => true,
         ))
         //->add('lastLogin')
         //->add('locked')
@@ -49,9 +66,9 @@ class UserType extends AbstractType
         //->add('passwordRequestedAt')
         ->add('roles', ChoiceType::class, array(
               'choices' => array(
-                'UTILISATEUR '  => 'ROLE_USER',
+                'UTILISATEUR . . .'  => 'ROLE_USER',
                 'ADMINISTRATEUR '  => 'ROLE_ADMIN',
-                'SUPER ADMINISTRATEUR '  => 'ROLE_SUPER_ADMIN',
+                //'SUPER ADMINISTRATEUR '  => 'ROLE_SUPER_ADMIN',
               ),
               'multiple'  => true,
               'expanded'  => true
