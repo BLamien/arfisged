@@ -36,4 +36,20 @@ class DocumentRepository extends \Doctrine\ORM\EntityRepository
         ;
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * Nombe de document par rubrique
+     *
+     * @author: Delrodie AMOIKON
+     * @version: v1.0 04/06/2017 19:29
+     */
+    public function countDocumentByRubrique($rubrique)
+    {
+        $qb = $this->createQueryBuilder('d')
+                   ->select('count(d.id)')
+                   ->where('d.rubrique = :rubrique')
+                   ->setParameter('rubrique', $rubrique)
+        ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

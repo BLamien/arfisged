@@ -55,10 +55,7 @@ class DefaultController extends Controller
           $notification->notice($user.' a consulté le tableau de bord .');
         }
 
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-        ]);
+        return $this->render('default/index.html.twig');
     }
 
     /**
@@ -100,13 +97,54 @@ class DefaultController extends Controller
      }
 
     /**
-     * Recherche de document
+     * Statistique du nombre du type de document
      *
-     * @Route("/recherche-document", name="recherche-document")
+     * @Route("/statistiques-nombre-type-document-{type}", name="statistique_nombre_type_document")
      * @Method({"GET", "POST"})
      */
-    public function rechercheAction()
+    public function typeDocumentAction($type)
     {
-        
+          $em = $this->getDoctrine()->getManager();
+          $nombre = $em->getRepository('AppBundle:Piecejointe')->countTypeDocument($type);
+          return $this->render('default/nombre.html.twig', array('nombre' => $nombre));
+    }
+
+    /**
+     * Liste des services
+     *
+     * @Route("/accueil/services", name="accueil_services")
+     */
+    public function listeServiceAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $services = $em->getRepository('AppBundle:Service')->findOrderByNom();
+        return $this->render('default/accueil_services.html.twig', array('services' => $services));
+    }
+
+    /**
+     * Liste des rubrique selon le service
+     *
+     * @Route("/accueil/rubriques{service}", name="accueil_rubriques")
+     */
+    public function listeRubriqueAction($service)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rubriques = $em->getRepository('AppBundle:Rubrique')->findBy(
+                                                                       array('service' => $service),
+                                                                       array('libelle' => 'ASC')
+                                                                     );
+        return $this->render('default/accueil_rubriques.html.twig', array('rubriques' => $rubriques));
+    }
+
+    /**
+     * Nombre de document par rubriques
+     *
+     * @Route("/statistiques/nombre-document{rubrique}", name="statistique_nombre_document_rubrique")
+     */
+    public function nbServiceDocument($rubrique)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $nombre = $em->getRepository('AppBundle:Document')->countDocumentByRubrique($rubrique);
+        return $this->render('default/nombre.html.twig', array('nombre' => $nombre));
     }
 }
