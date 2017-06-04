@@ -64,15 +64,7 @@
                 </h4>
               </li>
               <li class="hidden-xs hidden-sm">
-                <form class="navbar-search navbar-search-collapsed">
-                  <div class="navbar-search-group">
-                    <input class="navbar-search-input" type="text" placeholder="Recherches&hellip;">
-                    <button class="navbar-search-toggler" title="Expand search form ( S )" aria-expanded="false" type="submit">
-                      <span class="icon icon-search icon-lg"></span>
-                    </button>
-                    <button class="navbar-search-adv-btn" type="button">OK</button>
-                  </div>
-                </form>
+                {{ render(url('recherche_document_form')) }}
               </li>
               <!--<li class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true">
@@ -165,7 +157,7 @@
                 <li class="sidenav-heading">Accueil</li>
                 <li class="sidenav-item">
                   <a href="{{ path('homepage')}}">
-                    <span class="badge badge-success">26</span>
+                    <span class="badge badge-success"></span>
                     <span class="sidenav-icon icon icon-home"></span>
                     <span class="sidenav-label">Tableau de bord</span>
                   </a>

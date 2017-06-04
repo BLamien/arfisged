@@ -1,0 +1,11 @@
+{% for rubrique in rubriques %}
+<tr>
+  <td class="col-xs-1 text-left">{{ loop.index}}.</td>
+  <td class="col-xs-7 text-left">
+    <a class="link-muted" href="#">
+      <span class="truncate">{{ rubrique.libelle }}</span>
+    </a>
+  </td>
+  <td class="col-xs-4 text-right">{{ render(url('statistique_nombre_document_rubrique', {'rubrique': rubrique.id}))}}</td>
+</tr>
+{% endfor %}

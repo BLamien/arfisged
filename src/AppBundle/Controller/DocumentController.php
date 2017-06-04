@@ -70,7 +70,79 @@ class DocumentController extends Controller
      */
     public function showAction(Document $document)
     {
+        $em = $this->getDoctrine()->getManager();
         $deleteForm = $this->createDeleteForm($document);
+        // recuperation de l'user
+        $user = $this->getUser();
+
+        $rubrique = $em->getRepository('AppBundle:Rubrique')->findOneById($document->getRubrique()->getId());
+        $service = $em->getRepository('AppBundle:Service')->findOneById($rubrique->getService()->getId());
+        $id = $document->getRubrique()->getId();
+
+        // Si ROLE[0] est ROLE_USER alors recherche de la fonction dans gestionnaire.
+        $roles[] = $user->getRoles();
+        if ($roles[0][0] == 'ROLE_USER') {
+          // Recherche du service de l'user depuis le gestionnaire.
+          $gestionnaire = $em->getRepository('AppBundle:Gestionnaire')->findOneBy(array('user' => $user->getId()));
+
+          // Si gestionnaire est null alors message vous n'êtes à aucun service.
+          if ($gestionnaire == NULL) {
+            // redigerer vers la page d'erreur
+            $entete = "Oups!!!";
+            $erreur = "100";
+            $message = "Nous sommes désolés, vous n'êtes associé à aucun service. Veuillez contacter votre administrateur pour resourdre ce problème.";
+
+            return $this->render('default/echec_acces.html.twig', array(
+                'message' => $message,
+                'entete'  => $entete,
+                'erreur'  => $erreur,
+            ));
+          }
+
+          $serviceGestionnaireID = $gestionnaire->getService()->getId();
+
+          // on recupère le service de la rubrique en cours
+          $rubrique = $em->getRepository('AppBundle:Rubrique')->findOneById($id);
+          $serviceRubriqueID = $rubrique->getService()->getID();
+
+          // si service user est different du service rubrique alors message pas de ce service
+          if ($serviceRubriqueID != $serviceGestionnaireID) {
+            // redigerer vers la page d'erreur
+            $entete = "Accès réfusé";
+            $erreur = "102";
+            $message = "Nous sommes désolés, vous n'êtes pas de ce service. Veuillez contacter votre administrateur pour resourdre ce problème.";
+
+            return $this->render('default/echec_acces.html.twig', array(
+                'message' => $message,
+                'entete'  => $entete,
+                'erreur'  => $erreur,
+            ));
+          } else{
+              $niveau = $gestionnaire->getNiveau();
+              // Verifier l'existence d'une definition de droit d'accès
+              // Sinon alors User peut visualiser la page
+              $droit = $em->getRepository('AppBundle:Droit')->findOneBy(array('rubrique' => $id, 'niveau' => $niveau));
+
+              // Si les droits n'ont pas été definis, alors message d'accès réfusé.
+              if (!$droit) {
+                $entete = "Oups!!!";
+                $erreur = "105";
+                $message = "Nous sommes désolés, vous ne pouvez pas accéder à cette rubrique. Veuillez contacter votre administrateur pour qu'il definisse vos droits d'accès.";
+
+                return $this->render('default/echec_acces.html.twig', array(
+                    'message' => $message,
+                    'entete'  => $entete,
+                    'erreur'  => $erreur,
+                ));
+              } else {
+                $lecture = $droit->getLecture();
+                $ecriture = $droit->getEcriture();
+              }
+
+          }
+          // sinon verifier le droit dans droit d'acces
+          // si pas ok alors message accès réfusé
+        }
 
         $doc = $document->getPiecejointe();
 
@@ -85,6 +157,8 @@ class DocumentController extends Controller
               'document' => $document,
               'delete_form' => $deleteForm->createView(),
               'fichier' => $fichier,
+              'service' => $service,
+              'rubrique' => $rubrique,
           ));
 
         } elseif (($ext == 'docx') || ($ext == 'DOCX') || ($ext == 'doc') || ($ext == 'DOC')) {
@@ -94,6 +168,8 @@ class DocumentController extends Controller
               'document' => $document,
               'delete_form' => $deleteForm->createView(),
               'fichier' => $fichier,
+              'service' => $service,
+              'rubrique' => $rubrique,
           ));
 
         } elseif (($ext == 'xlsx') || ($ext == 'XLSX') || ($ext == 'xls') || ($ext == 'XLS')) {
@@ -103,6 +179,8 @@ class DocumentController extends Controller
               'document' => $document,
               'delete_form' => $deleteForm->createView(),
               'fichier' => $fichier,
+              'service' => $service,
+              'rubrique' => $rubrique,
           ));
 
         } elseif(
@@ -115,6 +193,8 @@ class DocumentController extends Controller
               'document' => $document,
               'delete_form' => $deleteForm->createView(),
               'fichier' => $fichier,
+              'service' => $service,
+              'rubrique' => $rubrique,
           ));
 
         } else{
@@ -124,6 +204,8 @@ class DocumentController extends Controller
               'document' => $document,
               'delete_form' => $deleteForm->createView(),
               'fichier' => $fichier,
+              'service' => $service,
+              'rubrique' => $rubrique,
           ));
 
         }
@@ -132,6 +214,8 @@ class DocumentController extends Controller
             'document' => $document,
             'delete_form' => $deleteForm->createView(),
             'fichier' => $fichier,
+            'service' => $service,
+            'rubrique' => $rubrique,
         ));
     }
 
@@ -198,5 +282,33 @@ class DocumentController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Creates a new document entity.
+     *
+     * @Route("/new/ajout-de-{rubrique}", name="document_new_user")
+     * @Method({"GET", "POST"})
+     */
+    public function newUserAction(Request $request, $rubrique)
+    {
+        $document = new Document();
+        $form = $this->createForm('AppBundle\Form\DocumentUserType', $document, array('rubrique' => $rubrique));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($document);
+            $em->flush();
+
+            $this->addFlash('notice', "Le document ".$document->getReference()." a été sauvegardé avec succès.!");
+
+            return $this->redirectToRoute('document_show', array('slug' => $document->getSlug()));
+        }
+
+        return $this->render('document/new.html.twig', array(
+            'document' => $document,
+            'form' => $form->createView(),
+        ));
     }
 }

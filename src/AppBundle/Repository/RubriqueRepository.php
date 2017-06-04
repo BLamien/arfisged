@@ -10,5 +10,19 @@ namespace AppBundle\Repository;
  */
 class RubriqueRepository extends \Doctrine\ORM\EntityRepository
 {
-  
+    /**
+     * La rubrique concernée par l'enregistrement
+     *
+     * @author: Delrodie AMOIKON
+     * @version v1.0 03/06/2017
+     */
+    public function getRubriqueLibelle($rubrique)
+    {
+       $qb = $this->createQueryBuilder('r')
+                  ->where('r.slug LIKE :rubrique')
+                  ->setParameter('rubrique', '%'.$rubrique.'%')
+       ;
+       return $qb;
+    }
+
 }

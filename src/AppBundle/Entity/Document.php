@@ -147,12 +147,6 @@ class Document
     private $modifieLe;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Service", inversedBy="documents")
-     * @ORM\JoinColumn(name="service_id", referencedColumnName="id")
-     */
-    private $service;
-
-    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Rubrique", inversedBy="documents")
      * @ORM\JoinColumn(name="rubrique_id", referencedColumnName="id")
      */

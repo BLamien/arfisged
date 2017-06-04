@@ -69,7 +69,7 @@
               <div class="row">
                 <div class="col-xs-12">
                   <p>Service producteur:
-                    <strong>{{ document.service|title }}</strong>
+                    <strong>{{ service.nom|title }}</strong>
                   </p>
                 </div>
                 <div class="col-xs-6">
@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-xs-12">
                   <p>Dans le service
-                    <strong>{{ document.service|title }}</strong>, ce document doit-il être accessible aux:</p>
+                    <strong>{{ service.nom|title }}</strong>, ce document doit-il être accessible aux:</p>
                 </div>
                 <div class="col-xs-6">
                   <p>Stagiaires ? :
@@ -151,7 +151,7 @@
           <br>
           <div class="row">
             <div class="col-xs-12 text-right">
-              <a href="{{ path('document_index')}}">
+              <a href="{{ path('ged_document_rubrique', {'id': rubrique.id, 'slug': rubrique.slug })}}">
                 <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
                   <span class="btn-label">
                     <span class="icon icon-list-alt icon-lg icon-fw"></span>

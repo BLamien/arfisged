@@ -21,7 +21,7 @@
                 <div class="media-middle media-body">
                   <h6 class="media-heading">PDF</h6>
                   <h3 class="media-heading">
-                    <span class="fw-l">001</span>
+                    <span class="fw-l">{{ render(url('statistique_nombre_type_document', {'type': 'pdf'}))}}</span>
                   </h3>
                 </div>
               </div>
@@ -40,7 +40,7 @@
                 <div class="media-middle media-body">
                   <h6 class="media-heading">Word</h6>
                   <h3 class="media-heading">
-                    <span class="fw-l">001</span>
+                    <span class="fw-l">{{ render(url('statistique_nombre_type_document', {'type': 'doc'}))}}</span>
                   </h3>
                 </div>
               </div>
@@ -59,7 +59,7 @@
                 <div class="media-middle media-body">
                   <h6 class="media-heading">Excel</h6>
                   <h3 class="media-heading">
-                    <span class="fw-l">001</span>
+                    <span class="fw-l">{{ render(url('statistique_nombre_type_document', {'type': 'xsl'}))}}</span>
                   </h3>
                 </div>
               </div>
@@ -78,7 +78,7 @@
                 <div class="media-middle media-body">
                   <h6 class="media-heading">Images et divers</h6>
                   <h3 class="media-heading">
-                    <span class="fw-l">001</span>
+                    <span class="fw-l">{{ render(url('statistique_nombre_type_document', {'type': 'g'}))}}</span>
                   </h3>
                 </div>
               </div>
@@ -87,250 +87,7 @@
         </div>
       </div>
       <div class="row gutter-xs">
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-actions">
-                <button type="button" class="card-action card-toggler" title="Collapse"></button>
-                <button type="button" class="card-action card-reload" title="Reload"></button>
-                <button type="button" class="card-action card-remove" title="Remove"></button>
-              </div>
-              <strong>Traffic Source / Top Referrals</strong>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6 m-y">
-                  <ul class="list-group list-group-divided">
-                    <li class="list-group-item">
-                      <div class="media">
-                        <div class="media-middle media-body">
-                          <h6 class="media-heading">
-                            <span class="text-muted">Direct</span>
-                          </h6>
-                          <h4 class="media-heading">67%
-                            <small>691,279</small>
-                          </h4>
-                        </div>
-                        <div class="media-middle media-right">
-                          <span class="bg-primary circle sq-40">
-                            <span class="icon icon-arrow-right"></span>
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="media">
-                        <div class="media-middle media-body">
-                          <h6 class="media-heading">
-                            <span class="text-muted">Referrals</span>
-                          </h6>
-                          <h4 class="media-heading">21%
-                            <small>216,670</small>
-                          </h4>
-                        </div>
-                        <div class="media-middle media-right">
-                          <span class="bg-primary circle sq-40">
-                            <span class="icon icon-link"></span>
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="media">
-                        <div class="media-middle media-body">
-                          <h6 class="media-heading">
-                            <span class="text-muted">Search Engines</span>
-                          </h6>
-                          <h4 class="media-heading">12%
-                            <small>123,811</small>
-                          </h4>
-                        </div>
-                        <div class="media-middle media-right">
-                          <span class="bg-primary circle sq-40">
-                            <span class="icon icon-search"></span>
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-md-6 m-y">
-                  <table class="table table-borderless table-fixed">
-                    <tbody>
-                      <tr>
-                        <td class="col-xs-1 text-left">1.</td>
-                        <td class="col-xs-7 text-left">
-                          <a class="link-muted" href="#">
-                            <span class="truncate">themeforest.net</span>
-                          </a>
-                        </td>
-                        <td class="col-xs-4 text-right">115,928</td>
-                      </tr>
-                      <tr>
-                        <td class="col-xs-1 text-left">2.</td>
-                        <td class="col-xs-7 text-left">
-                          <a class="link-muted" href="#">
-                            <span class="truncate">facebook.com</span>
-                          </a>
-                        </td>
-                        <td class="col-xs-4 text-right">43,651</td>
-                      </tr>
-                      <tr>
-                        <td class="col-xs-1 text-left">3.</td>
-                        <td class="col-xs-7 text-left">
-                          <a class="link-muted" href="#">
-                            <span class="truncate">twitter.com</span>
-                          </a>
-                        </td>
-                        <td class="col-xs-4 text-right">20,117</td>
-                      </tr>
-                      <tr>
-                        <td class="col-xs-1 text-left">4.</td>
-                        <td class="col-xs-7 text-left">
-                          <a class="link-muted" href="#">
-                            <span class="truncate">linkedin.com</span>
-                          </a>
-                        </td>
-                        <td class="col-xs-4 text-right">19,115</td>
-                      </tr>
-                      <tr>
-                        <td class="col-xs-1 text-left">5.</td>
-                        <td class="col-xs-7 text-left">
-                          <a class="link-muted" href="#">
-                            <span class="truncate">pinterest.com</span>
-                          </a>
-                        </td>
-                        <td class="col-xs-4 text-right">11,292</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-actions">
-                <button type="button" class="card-action card-toggler" title="Collapse"></button>
-                <button type="button" class="card-action card-reload" title="Reload"></button>
-                <button type="button" class="card-action card-remove" title="Remove"></button>
-              </div>
-              <strong>Sales / Top Brands</strong>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6 m-y">
-                  <ul class="list-group list-group-divided">
-                    <li class="list-group-item">
-                      <div class="media">
-                        <div class="media-middle media-body">
-                          <h6 class="media-heading">
-                            <span class="text-muted">Women's Clothing</span>
-                          </h6>
-                          <h4 class="media-heading">28%
-                            <small>$43,498.69</small>
-                          </h4>
-                        </div>
-                        <div class="media-middle media-right">
-                          <span class="bg-danger circle sq-40">
-                            <span class="icon icon-female"></span>
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="media">
-                        <div class="media-middle media-body">
-                          <h6 class="media-heading">
-                            <span class="text-muted">Men's Clothing</span>
-                          </h6>
-                          <h4 class="media-heading">19%
-                            <small>$29,516.97</small>
-                          </h4>
-                        </div>
-                        <div class="media-middle media-right">
-                          <span class="bg-danger circle sq-40">
-                            <span class="icon icon-male"></span>
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="media">
-                        <div class="media-middle media-body">
-                          <h6 class="media-heading">
-                            <span class="text-muted">Computers</span>
-                          </h6>
-                          <h4 class="media-heading">15%
-                            <small>$23,302.87</small>
-                          </h4>
-                        </div>
-                        <div class="media-middle media-right">
-                          <span class="bg-danger circle sq-40">
-                            <span class="icon icon-laptop"></span>
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-md-6 m-y">
-                  <table class="table table-borderless table-fixed">
-                    <tbody>
-                      <tr>
-                        <td class="col-xs-1 text-left">1.</td>
-                        <td class="col-xs-6 text-left">
-                          <a class="link-muted" href="#">
-                            <span class="truncate">Banana Republic</span>
-                          </a>
-                        </td>
-                        <td class="col-xs-5 text-right">$7,124.23</td>
-                      </tr>
-                      <tr>
-                        <td class="col-xs-1 text-left">2.</td>
-                        <td class="col-xs-6 text-left">
-                          <a class="link-muted" href="#">
-                            <span class="truncate">Calvin Klein</span>
-                          </a>
-                        </td>
-                        <td class="col-xs-5 text-right">$6,389.26</td>
-                      </tr>
-                      <tr>
-                        <td class="col-xs-1 text-left">3.</td>
-                        <td class="col-xs-6 text-left">
-                          <a class="link-muted" href="#">
-                            <span class="truncate">Ralph Lauren</span>
-                          </a>
-                        </td>
-                        <td class="col-xs-5 text-right">$5,826.64</td>
-                      </tr>
-                      <tr>
-                        <td class="col-xs-1 text-left">4.</td>
-                        <td class="col-xs-6 text-left">
-                          <a class="link-muted" href="#">
-                            <span class="truncate">Tommy Hilfiger</span>
-                          </a>
-                        </td>
-                        <td class="col-xs-5 text-right">$5,064.62</td>
-                      </tr>
-                      <tr>
-                        <td class="col-xs-1 text-left">5.</td>
-                        <td class="col-xs-6 text-left">
-                          <a class="link-muted" href="#">
-                            <span class="truncate">Lenovo</span>
-                          </a>
-                        </td>
-                        <td class="col-xs-5 text-right">$4,536.72</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {{ render(url('accueil_services'))}}     
       </div>
     </div>
   </div>

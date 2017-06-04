@@ -74,11 +74,6 @@ class Service
      */
      private $rubriques;
 
-     /**
-      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Document", mappedBy="service")
-      */
-      private $documents;
-
       /**
        * @ORM\OneToMany(targetEntity="AppBundle\Entity\Gestionnaire", mappedBy="service")
        */

@@ -74,8 +74,21 @@ class GedController extends Controller
               // Sinon alors User peut visualiser la page
               $droit = $em->getRepository('AppBundle:Droit')->findOneBy(array('rubrique' => $id, 'niveau' => $niveau));
 
-              $lecture = $droit->getLecture();
-              $ecriture = $droit->getEcriture();
+              // Si les droits n'ont pas été definis, alors message d'accès réfusé.
+              if (!$droit) {
+                $entete = "Oups!!!";
+                $erreur = "105";
+                $message = "Nous sommes désolés, vous ne pouvez pas accéder à cette rubrique. Veuillez contacter votre administrateur pour qu'il definisse vos droits d'accès.";
+
+                return $this->render('default/echec_acces.html.twig', array(
+                    'message' => $message,
+                    'entete'  => $entete,
+                    'erreur'  => $erreur,
+                ));
+              } else {
+                $lecture = $droit->getLecture();
+                $ecriture = $droit->getEcriture();
+              }
 
               return $this->render('ged/document_rubrique.html.twig', array(
                   'documents' => $documents,
