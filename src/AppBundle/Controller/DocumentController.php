@@ -70,7 +70,11 @@ class DocumentController extends Controller
      */
     public function showAction(Document $document)
     {
+        $em = $this->getDoctrine()->getManager();
         $deleteForm = $this->createDeleteForm($document);
+
+        $rubrique = $em->getRepository('AppBundle:Rubrique')->findOneById($document->getRubrique()->getId());
+        $service = $em->getRepository('AppBundle:Service')->findOneById($rubrique->getService()->getId());
 
         $doc = $document->getPiecejointe();
 
@@ -85,6 +89,8 @@ class DocumentController extends Controller
               'document' => $document,
               'delete_form' => $deleteForm->createView(),
               'fichier' => $fichier,
+              'service' => $service,
+              'rubrique' => $rubrique,
           ));
 
         } elseif (($ext == 'docx') || ($ext == 'DOCX') || ($ext == 'doc') || ($ext == 'DOC')) {
@@ -94,6 +100,8 @@ class DocumentController extends Controller
               'document' => $document,
               'delete_form' => $deleteForm->createView(),
               'fichier' => $fichier,
+              'service' => $service,
+              'rubrique' => $rubrique,
           ));
 
         } elseif (($ext == 'xlsx') || ($ext == 'XLSX') || ($ext == 'xls') || ($ext == 'XLS')) {
@@ -103,6 +111,8 @@ class DocumentController extends Controller
               'document' => $document,
               'delete_form' => $deleteForm->createView(),
               'fichier' => $fichier,
+              'service' => $service,
+              'rubrique' => $rubrique,
           ));
 
         } elseif(
@@ -115,6 +125,8 @@ class DocumentController extends Controller
               'document' => $document,
               'delete_form' => $deleteForm->createView(),
               'fichier' => $fichier,
+              'service' => $service,
+              'rubrique' => $rubrique,
           ));
 
         } else{
@@ -124,6 +136,8 @@ class DocumentController extends Controller
               'document' => $document,
               'delete_form' => $deleteForm->createView(),
               'fichier' => $fichier,
+              'service' => $service,
+              'rubrique' => $rubrique,
           ));
 
         }
@@ -132,6 +146,8 @@ class DocumentController extends Controller
             'document' => $document,
             'delete_form' => $deleteForm->createView(),
             'fichier' => $fichier,
+            'service' => $service,
+            'rubrique' => $rubrique,
         ));
     }
 
@@ -198,5 +214,33 @@ class DocumentController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Creates a new document entity.
+     *
+     * @Route("/new/ajout-de-{rubrique}", name="document_new_user")
+     * @Method({"GET", "POST"})
+     */
+    public function newUserAction(Request $request, $rubrique)
+    {
+        $document = new Document();
+        $form = $this->createForm('AppBundle\Form\DocumentUserType', $document, array('rubrique' => $rubrique));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($document);
+            $em->flush();
+
+            $this->addFlash('notice', "Le document ".$document->getReference()." a été sauvegardé avec succès.!");
+
+            return $this->redirectToRoute('document_show', array('slug' => $document->getSlug()));
+        }
+
+        return $this->render('document/new.html.twig', array(
+            'document' => $document,
+            'form' => $form->createView(),
+        ));
     }
 }

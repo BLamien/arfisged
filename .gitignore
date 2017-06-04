@@ -15,7 +15,7 @@
 /vendor/
 /web/bundles/
 /src/AppBundle/Entity/*~
-/app/Resources/views/default/log.html.twig
+/app/Resources/views/default/logs.html.twig
 /web/ressources/uploads/
 .idea
 /.idea/

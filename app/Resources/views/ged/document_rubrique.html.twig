@@ -22,14 +22,16 @@
       <br><br>
       <div class="text-center m-b">
         <h3 class="m-b-0">
-          <a href="{{ path('document_new')}}">
+          {% if ecriture %}
+          <a href="{{ path('document_new_user', {'rubrique': rubrique.slug })}}">
             <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
               <span class="btn-label">
                 <span class="icon icon-plus icon-lg icon-fw"></span>
               </span>
-              {% if ecriture %}AJOUTER UN NOUVEAU DOCUMENT{% endif %}
+              AJOUTER UN NOUVEAU DOCUMENT
             </button>
           </a>
+          {% endif %}
         </h3>
         <small></small>
       </div>
@@ -70,9 +72,9 @@
               <table id="demo-datatables-4" class="table table-striped table-nowrap dataTable" cellspacing="0" width="100%">
                 <thead>
                   <tr>
+                    <th class="text-center">#</th>
                     <th class="text-center">References</th>
                     <th class="text-center">Libelle</th>
-                    <th class="text-center">Producteurs</th>
                     <th class="text-center">Productions</th>
                     <th class="text-center">Fin</th>
                     <th class="text-center">Partage</th>
@@ -82,9 +84,9 @@
                 </thead>
                 <tfoot>
                   <tr>
+                    <th></th>
                     <th>References</th>
                     <th>Libelle</th>
-                    <th>Producteurs</th>
                     <th>Productions</th>
                     <th>Fin</th>
                     <th></th>
@@ -95,9 +97,9 @@
                 <tbody>
                   {% for document in documents %}
                     <tr>
+                      <td class="text-right">{{ loop.index }}&nbsp;</td>
                       <td>{{ document.reference|upper }}</td>
                       <td>{{ document.libelle }}</td>
-                      <td>{{ document.service|upper }}</td>
                       <td>{{ document.dateprod }}</td>
                       <td>{{ document.datefin }}</td>
                       <td class="text-center">
@@ -113,7 +115,7 @@
                         <a href="{{ path('document_edit', {'slug': document.slug })}}" title="">
                           <span class="icon icon-edit"></span>
                         </a> |
-                        {% endif %}                        
+                        {% endif %}
                         {% if lecture %}
                         <a href="{{ path('document_show', {'slug': document.slug })}}" title="">
                           <span class="icon icon-search"></span>

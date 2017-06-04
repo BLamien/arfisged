@@ -107,6 +107,6 @@ monolog:
             level: notice
             type:  stream
             #path:  '%kernel.logs_dir%/../../web/ressources/js/notification.json'
-            path:  '%kernel.logs_dir%/../../app/Resources/views/default/log.html.twig'
+            path:  '%kernel.logs_dir%/../../app/Resources/views/default/logs.html.twig'
             #formatter: json
             channels: [notification]

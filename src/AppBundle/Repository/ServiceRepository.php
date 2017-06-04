@@ -17,8 +17,8 @@ class ServiceRepository extends \Doctrine\ORM\EntityRepository
    * @date: 07/05/2017 14:35
    * @version: v1.0
    */
-   public function findOrderByNom()
-   {
+  public function findOrderByNom()
+  {
        $em = $this->getEntityManager();
        $qb = $em->createQuery('
               SELECT s
@@ -33,5 +33,5 @@ class ServiceRepository extends \Doctrine\ORM\EntityRepository
        } catch (NoResultException $e) {
            return $e;
        }
-   }
+  }
 }

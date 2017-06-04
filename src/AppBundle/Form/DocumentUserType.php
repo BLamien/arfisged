@@ -1,0 +1,166 @@
+<?php
+
+namespace AppBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
+use AppBundle\Form\PiecejointeType;
+use AppBundle\Entity\Piecejointe;
+
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityRepository;
+
+class DocumentUserType extends AbstractType
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $this->rubrique = $options['rubrique'];
+
+        $rubrique = $this->rubrique;
+
+        $builder
+            ->add('reference', TextType::class, array(
+                  'attr'  => array(
+                      'class' => 'md-form-control',
+                      'autocomplete'  => 'off',
+                      'spellcheck'  => "false",
+                      'data-msg-required' =>  "Veuillez entrer la reference du document.",
+                  ),
+                  'required'  => true,
+            ))
+            ->add('libelle', TextType::class, array(
+                  'attr'  => array(
+                      'class' => 'md-form-control',
+                      'autocomplete'  => 'off',
+                      'spellcheck'  => "false",
+                      'data-msg-required' =>  "Veuillez entrer le nom du document.",
+                  ),
+                  'required'  => true,
+            ))
+            ->add('resume', TextareaType::class, array(
+                  'attr'  => array(
+                      'class' => 'md-form-control',
+                      'spellcheck'  => "false",
+                       "rows" => "3",
+                       'data-msg-required' =>  "Veuillez saisir le resumé.",
+                  ),
+                  'required'  => true
+            ))
+            ->add('tags', TextareaType::class, array(
+                  'attr'  => array(
+                      'class' => 'md-form-control',
+                      'spellcheck'  => "false",
+                       "rows" => "3"
+                  ),
+                  'required'  => false
+            ))
+            ->add('dateprod', TextType::class, array(
+                  'attr'  => array(
+                      'class' => 'md-form-control',
+                      'autocomplete'  => 'off',
+                      'spellcheck'  => "false",
+                      'data-msg-required' =>  "Veuillez entrer la date de production.",
+                      'data-provide'  =>  "datepicker",
+                      'data-date-today-highlight' =>  "true",
+                  ),
+                  'required'  => true,
+            ))
+            ->add('datefin', TextType::class, array(
+                  'attr'  => array(
+                      'class' => 'md-form-control',
+                      'autocomplete'  => 'off',
+                      'spellcheck'  => "false",
+                      'data-msg-required' =>  "Veuillez entrer la date de fin.",
+                      'data-provide'  =>  "datepicker",
+                      'data-date-today-highlight' =>  "true",
+                  ),
+                  'required'  => true,
+            ))
+            ->add('transfert', null, array(
+                  'attr'  => array(
+                      'class' => 'custom-control-input',
+                  )
+            ))
+            ->add('partage', null, array(
+                  'attr'  => array(
+                      'class' => 'custom-control-input',
+                  )
+            ))
+            ->add('stagiaire', null, array(
+                  'attr'  => array(
+                      'class' => 'custom-control-input',
+                  )
+            ))
+            ->add('assistant', null, array(
+                  'attr'  => array(
+                      'class' => 'custom-control-input',
+                  )
+            ))
+            ->add('adjoint', null, array(
+                  'attr'  => array(
+                      'class' => 'custom-control-input',
+                  )
+            ))
+            ->add('chef', null, array(
+                  'attr'  => array(
+                      'class' => 'custom-control-input',
+                  )
+            ))
+            //->add('slug')->add('publiePar')->add('modifiePar')->add('publieLe')->add('modifieLe')
+            
+            ->add('rubrique', EntityType::class, array(
+                  'attr'  => array(
+                      'class' => 'md-form-control',
+                  ),
+                'class' => 'AppBundle:Rubrique',
+                'query_builder' =>  function(EntityRepository $er) use($rubrique){
+                        return $er->getRubriqueLibelle($rubrique);
+                  },
+                  'choice_label'  => 'libelle',
+            ))
+            ->add('sortfinal', EntityType::class, array(
+                  'attr'  => array(
+                      'class' => 'md-form-control',
+                  ),
+                'class' => 'AppBundle:Sortfinal'
+            ))
+            ->add('piecejointe', CollectionType::class, array(
+                  'entry_type'          =>  PiecejointeType::class,
+                  'allow_add'     => true,
+                  'allow_delete'  => true,
+            ))
+            ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'AppBundle\Entity\Document',
+            'rubrique'      => null,
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'appbundle_document';
+    }
+
+
+}
