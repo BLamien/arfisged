@@ -100,14 +100,13 @@ class DefaultController extends Controller
      }
 
     /**
-     * Redirection à la page de changement de mot de passe si première connexion
+     * Recherche de document
      *
-     * @Route("/premiere-conexion", name="premiere_connexion")
+     * @Route("/recherche-document", name="recherche-document")
+     * @Method({"GET", "POST"})
      */
-    public function pconnexionAction()
+    public function rechercheAction()
     {
-
-
-        //dump($user->getLoginCount());die();
+        
     }
 }
