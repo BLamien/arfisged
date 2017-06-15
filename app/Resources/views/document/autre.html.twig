@@ -1,0 +1,207 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {{ document.libelle }}
+{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('ressources/css/product.min.css')}}">
+{% endblock %}
+
+{% block body %}
+
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <!-- Message -->
+      {% for flash_message in app.session.flashBag.get('notice') %}
+        {% if flash_message %}
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+              <div class="alert alert-success alert-dismissible fade in">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                <a href="#" class="alert-link">NOTIFICATION :</a>
+                {{ flash_message }}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+      <!-- \Message -->
+      <br>
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+          <div class="product">
+            <div class="product-images">
+              <div class="flexslider">
+                <ul class="slides">
+                  <li data-thumb="{{ asset('ressources/img/icon-excel.png')}}">
+                    <img src="{{ asset('ressources/img/icon-excel.png')}}" alt="">
+                  </li>
+                  <li data-thumb="{{ asset('ressources/img/icon-word.png')}}">
+                    <img src="{{ asset('ressources/img/icon-word.png')}}" alt="">
+                  </li>
+                  <li data-thumb="{{ asset('ressources/img/icon-img.png')}}">
+                    <img src="{{ asset('ressources/img/icon-img.png')}}" alt="">
+                  </li>
+                  <li data-thumb="{{ asset('ressources/img/icon-pdf.png')}}">
+                    <img src="{{ asset('ressources/img/icon-pdf.png')}}" alt="">
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="product-details">
+              <h1 class="product-name">{{ document.libelle }}</h1>
+              <div class="product-divider"></div>
+              <div class="product-price">
+                <span class="product-price-current">{{ document.reference|upper }}</span>
+                <span class="product-price-old"></span>
+              </div>
+              <div class="product-rating">
+              </div>
+              <div class="product-description">
+                <p class="text-justify">
+                  {{ document.resume|raw }}
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <p>Service producteur:
+                    <strong>{{ service.nom|title }}</strong>
+                  </p>
+                </div>
+                <div class="col-xs-6">
+                  <p>Date de production:
+                    <strong>{{ document.dateprod }}</strong>
+                  </p>
+                </div>
+                <div class="col-xs-6">
+                  <p>Date fin:
+                    <strong>{{ document.datefin }}</strong>
+                  </p>
+                </div>
+                <div class="col-xs-6">
+                  <p>Peut-il être transferé ? :
+                    {% if document.transfert %}
+                      <strong>OUI</strong>
+                    {% else %}
+                      <strong>NON</strong>
+                    {% endif %}
+                  </p>
+                </div>
+                <div class="col-xs-6">
+                  <p>Peut-il être partagé ? :
+                    {% if document.partage %}
+                      <strong>OUI</strong>
+                    {% else %}
+                      <strong>NON</strong>
+                    {% endif %}
+                  </p>
+                </div>
+                <div class="col-xs-12">
+                  <p>Dans le service
+                    <strong>{{ service.nom|title }}</strong>, ce document doit-il être accessible aux:</p>
+                </div>
+                <div class="col-xs-6">
+                  <p>Stagiaires ? :
+                    {% if document.stagiaire %}
+                      <strong>OUI</strong>
+                    {% else %}
+                      <strong>NON</strong>
+                    {% endif %}
+                  </p>
+                </div>
+                <div class="col-xs-6">
+                  <p>Assistants ? :
+                    {% if document.assistant %}
+                      <strong>OUI</strong>
+                    {% else %}
+                      <strong>NON</strong>
+                    {% endif %}
+                  </p>
+                </div>
+                <div class="col-xs-6">
+                  <p>Adjoints ? :
+                    {% if document.adjoint %}
+                      <strong>OUI</strong>
+                    {% else %}
+                      <strong>NON</strong>
+                    {% endif %}
+                  </p>
+                </div>
+                <div class="col-xs-6">
+                  <p>Chefs ? :
+                    {% if document.chef %}
+                      <strong>OUI</strong>
+                    {% else %}
+                      <strong>NON</strong>
+                    {% endif %}
+                  </p>
+                </div>
+                <div class="col-xs-12">
+                  <p>Sort final:
+                    <strong>{{ document.sortfinal }}</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-xs-12 text-right">
+              <a href="{{ path('ged_document_rubrique', {'id': rubrique.id, 'slug': rubrique.slug })}}">
+                <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
+                  <span class="btn-label">
+                    <span class="icon icon-list-alt icon-lg icon-fw"></span>
+                  </span>
+                  Retour à la liste
+                </button>
+              </a>
+              <a href="{{ path('document_edit', {'slug': document.slug })}}" title="">
+                <button class="btn btn-outline-primary btn-sm btn-labeled" type="button">
+                  <span class="btn-label">
+                    <span class="icon icon-edit icon-lg icon-fw"></span>
+                  </span>
+                  Modifier
+                </button>
+              </a>
+              <div class="btn-group dropup">
+                  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" type="button">
+                    <span class="icon icon-download icon-lg icon-fw"></span>
+                    Téléchargez
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    {% for doc in document.piecejointe %}
+                    <li>
+                      <a href="{{ asset('ressources/uploads/documents/' ~ doc.id ~'.'~ doc.url )}}" target="_blank">
+                        <div class="media">
+                          <div class="media-left">
+                            <span class="icon icon-file-text-o icon-lg icon-fw text-default"></span>
+                          </div>
+                          <div class="media-body">
+                            <span class="d-b">Fichier {{ loop.index }}</span>
+                            <!--<small>People can sync and edit.</small>-->
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+            </div>
+          </div><br><br>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('ressources/js/product.min.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Liste des documents
+{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('ressources/css/dashboard-3.min.css')}}">
+{% endblock %}
+
+{% block body %}
+
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <!-- Message -->
+      {% for flash_message in app.session.flashBag.get('notice') %}
+        {% if flash_message %}
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+              <div class="alert alert-success alert-dismissible fade in text-center">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                <a href="#" class="alert-link"></a>
+                {{ flash_message|raw }}
+                <span style="font-size: 30px;"><span class="icon icon-frown-o"></span></span>
+              </div>
+            </div>
+          </div>
+          <br><br>
+        {% endif %}
+      {% endfor %}
+      <!-- \Message -->
+
+      <!-- Liste des documents recherchés -->
+      <div class="row gutter-xs">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              {% if (existance) %}
+              <ul class="ticket-list">
+                <li class="ticket-list-header">
+                  <div class="ticket-list-meta">
+                    <div class="ticket-list-date">Dates</div>
+                  </div>
+                  <div class="ticket-list-name">Rubriques</div>
+                  <div class="ticket-list-content">Titres</div>
+                </li>
+                <li class="ticket-list-separator">
+                  <div class="ticket-list-count">
+                    <span class="badge badge-success">{{ nombre|number_format('0','','.')}}</span>
+                  </div>
+                  <div class="ticket-list-heading">Nombres de documents concernés par la recherche</div>
+                </li>
+                {% for resultat in resultats %}
+                <li class="ticket-list-item">
+                  <a class="ticket-list-link" href="{{ path('document_show', {'slug': resultat.slug })}}">
+                    <div class="ticket-list-meta">
+                      <div class="ticket-list-attachments">
+                        <span class="icon icon-paperclip icon-fw"></span>
+                      </div>
+                      <div class="ticket-list-date">{{ resultat.dateprod }}</div>
+                    </div>
+                    <div class="ticket-list-name">{{ resultat.rubrique }}</div>
+                    <div class="ticket-list-content">
+                      <span class="ticket-list-status open">{{ resultat.reference }}</span>
+                      <span class="ticket-list-subject">
+                        {{ resultat.libelle }}
+                      </span>
+                    </div>
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <ul class="ticket-list">
+                <li class="ticket-list-separator">
+                  <div class="ticket-list-count">
+                    <span class="badge badge-success">{{ nombre }}</span>
+                  </div>
+                  <div class="ticket-list-heading text-center">Aucun resultat</div>
+                </li>
+              </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- \Liste des documents recherchés -->
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('ressources/js/demo.min.js')}}"></script>
+{% endblock %}

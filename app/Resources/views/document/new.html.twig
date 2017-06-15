@@ -1,0 +1,258 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Documents {% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('ressources/css/demo.min.css')}}">
+{% endblock %}
+
+{% block body %}
+
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Gestion des documents</span>
+        </h1>
+      </div><br>
+      <!-- Enregistrement -->
+      <div class="row p-y-lg">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+          {{ form_start(form, { 'attr': {'data-toggle': 'md-validator' }}) }}
+            <div class="row">
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.reference) }}
+                  {{ form_errors(form.reference) }}
+                  <label class="md-control-label">Reference</label>
+                  <small class="md-help-block">La référence <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  <div class="md-form-group md-label-floating">
+                    {{ form_widget(form.sortfinal) }}
+                    {{ form_errors(form.sortfinal) }}
+                    <label class="md-control-label"></label>
+                    <small class="md-help-block">Sort final <span style="color: red">*</span></small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.rubrique) }}
+                  {{ form_errors(form.rubrique) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Emplacement</small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.libelle) }}
+                  {{ form_errors(form.libelle) }}
+                  <label class="md-control-label">Titre</label>
+                  <small class="md-help-block">Le titre  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.dateprod) }}
+                  {{ form_errors(form.dateprod) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Date de production  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.datefin) }}
+                  {{ form_errors(form.datefin) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Date fin <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.resume) }}
+                  {{ form_errors(form.resume) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Resumé du document  <span style="color: red">*</span></small>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="md-form-group md-label-floating">
+                  {{ form_widget(form.tags) }}
+                  {{ form_errors(form.tags) }}
+                  <label class="md-control-label"></label>
+                  <small class="md-help-block">Mots clés  <span style="color: red"></span></small>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(form.transfert)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Peut-il être transferé ?</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(form.partage)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Peut-il être partagé ?</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(form.stagiaire)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Est-il ouvert aux Stagiaires ?</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(form.assistant)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Est-il ouvert aux Assistants ?</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(form.adjoint)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Est-il ouvert aux Adjoints ?</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                  <div class="custom-controls-stacked m-t">
+                    <label class="custom-control custom-control-primary custom-checkbox">
+                      {{ form_widget(form.chef)}}
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-label">Est-il ouvert aux Chefs ?</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-5 col-md-5"><br><br>
+                <div class="form-group">
+                    {{ form_widget(form.piecejointe)}}
+                </div>
+              </div>
+              <div class="col-sm-4 col-md-4"><br><br>
+
+              </div>
+            </div><br>
+            <div class="row">
+              <div class="col-sm-4 col-md-3 col-sm-offset-4 col-md-offset-6">
+                {{ form_rest(form)}}
+                <button type="submit" class="btn btn-primary btn-block">Enregistrer</button>
+              </div>
+              <div class="col-sm-4 col-md-3">
+                <button type="reset" class="btn btn-default btn-block">Annuler</button>
+              </div>
+            </div>
+          {{ form_end(form)}}
+        </div>
+      </div>
+      <!-- \Enregistrement -->
+      <br>
+      <!-- Message -->
+        {% for flash_message in app.session.flashBag.get('notice') %}
+          {% if flash_message %}
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+              <div class="alert alert-success alert-dismissible fade in">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <a href="#" class="alert-link">NOTIFICATION :</a> {{ flash_message }}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+        <!-- \Message -->
+        <br>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('ressources/js/demo.min.js')}}"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#appbundle_document_piecejointe');
+
+    // On ajoute un lien pour ajouter une nouvelle catégorie
+    var $lienAjout = $('<a href="#" id="ajout_photo" class="btn btn-outline-primary">Ajouter un document</a>');
+    $container.append($lienAjout);
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $lienAjout.click(function(e) {
+      ajouterCategorie($container);
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+    // On ajoute un premier champ directement s'il n'en existe pas déjà un (cas d'un nouvel article par exemple).
+    if (index == 0) {
+      ajouterCategorie($container);
+    } else {
+      // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+      $container.children('div').each(function() {
+        ajouterLienSuppression($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire Categorie
+    function ajouterCategorie($container) {
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, '<br>Document N°' + (index+1))
+                                                          .replace(/__name__/g, index));
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+      ajouterLienSuppression($prototype);
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $container.append($prototype);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une catégorie
+    function ajouterLienSuppression($prototype) {
+      // Création du lien
+      $lienSuppression = $('<br><a href="#" class="btn btn-danger">Supprimer</a>');
+
+      // Ajout du lien
+      $prototype.append($lienSuppression);
+
+      // Ajout du listener sur le clic du lien
+      $lienSuppression.click(function(e) {
+        $prototype.remove();
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+    });
+  </script>
+{% endblock %}

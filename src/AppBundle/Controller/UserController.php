@@ -18,16 +18,38 @@ class UserController extends Controller
      * Lists all user entities.
      *
      * @Route("/", name="admin_user_index")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $users = $em->getRepository('AppBundle:User')->findAll();
+        // Enregistrement
+        $user = new User();
+        $form = $this->createForm('AppBundle\Form\UserType', $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $user->setEnabled(true);
+            //Encodage du mot de passe
+            $encoder = $this->container->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encoded);
+
+            $em->persist($user);
+            $em->flush($user);
+
+            return $this->redirectToRoute('admin_user_index');
+        }
+
+        $users = $em->getRepository('AppBundle:User')->getUser();
 
         return $this->render('user/index.html.twig', array(
             'users' => $users,
+            'user' => $user,
+            'form' => $form->createView(),
         ));
     }
 
@@ -88,12 +110,14 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $deleteForm = $this->createDeleteForm($user);
         $editForm = $this->createForm('AppBundle\Form\UserType', $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-          //$user->setEnabled(true);
+          //$user->setLocked(true);
         //Encodage du mot de passe
         $encoder = $this->container->get('security.password_encoder');
         $encoded = $encoder->encodePassword($user, $user->getPassword());
@@ -104,10 +128,13 @@ class UserController extends Controller
           return $this->redirectToRoute('admin_user_index');
         }
 
+        $users = $em->getRepository('AppBundle:User')->getUser();
+
         return $this->render('user/edit.html.twig', array(
             'user' => $user,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'users' => $users,
         ));
     }
 

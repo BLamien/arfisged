@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Droit</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ droit.id }}</td>
+            </tr>
+            <tr>
+                <th>Lecture</th>
+                <td>{% if droit.lecture %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Ecriture</th>
+                <td>{% if droit.ecriture %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fonction</th>
+                <td>{{ droit.fonction }}</td>
+            </tr>
+            <tr>
+                <th>Niveau</th>
+                <td>{{ droit.niveau }}</td>
+            </tr>
+            <tr>
+                <th>Publiepar</th>
+                <td>{{ droit.publiePar }}</td>
+            </tr>
+            <tr>
+                <th>Modifiepar</th>
+                <td>{{ droit.modifiePar }}</td>
+            </tr>
+            <tr>
+                <th>Publiele</th>
+                <td>{{ droit.publieLe }}</td>
+            </tr>
+            <tr>
+                <th>Modifiele</th>
+                <td>{{ droit.modifieLe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('droit_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('droit_edit', { 'id': droit.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

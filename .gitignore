@@ -15,3 +15,8 @@
 /vendor/
 /web/bundles/
 /src/AppBundle/Entity/*~
+/app/Resources/views/default/logs.html.twig
+/web/ressources/uploads/
+.idea
+/.idea/
+/composer.phar

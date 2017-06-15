@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prémière connexion{% endblock %}
+
+{% block body %}
+  <div class="layout-content">
+    <div class="layout-content-body">
+
+      <div class="row" style="margin-top: 75px;">
+        <div class="col-xs-10 col-sm-8 col-md-6 col-xs-offset-1 col-sm-offset-2 col-md-offset-3 text-center">
+          <div class="alert alert-success alert-dismissible fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span></button>
+            <br>
+            <h4>Vous êtes à votre prémière connexion à ARFISGED. </h4>
+            <h4>Donc nous vous invitons à changer votre mot de passe.</h4>
+            <br><br>
+            <a class="btn btn-primary btn-pill btn-thick" href="{{ path('fos_user_change_password')}}">Changer le mot de passe</a>
+            <a class="btn btn-success btn-pill btn-thick" href="{{ path('homepage')}}">Plutard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

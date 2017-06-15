@@ -1,0 +1,15 @@
+                {% for rubrique in rubriques %}
+                <li class="sidenav-item has-subnav">
+                  <a href="#" aria-haspopup="true">
+                    <span class="sidenav-icon icon icon-folder-o"></span>
+                    <span class="sidenav-label">{{ rubrique.nom|title }}</span>
+                  </a>
+                  <ul class="sidenav-subnav collapse">
+                    <li class="sidenav-subheading">{{ rubrique.nom|title }}</li>
+                    {{ render(url('ged_sous_rubriques', {'id': rubrique.id }))}}
+                    <li>
+                      <a href="#"></a>
+                    </li>
+                  </ul>
+                </li>
+                {% endfor %}
